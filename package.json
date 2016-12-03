@@ -1,0 +1,16 @@
+{
+  "name": "api-Series",
+  "version": "0.0.1",
+  "description": "API para fazer o meu controle de series",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Fernando Brum <fernandobalcantara@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "bluebird": "^3.4.6",
+    "express": "^4.14.0"
+  }
+}
