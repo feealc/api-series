@@ -17,7 +17,14 @@ mongoose.Promise = bluebird
 
 // server.listen(port, () => console.log(`localhost:${port}`))
 
-mongoose.connect('localhost/seriesdb', err => {
+// mongodb://username:password@host:port/database
+// mongodb://herogod:esposito@ds027896.mlab.com:27896/beardb
+
+// const mongoconect = 'localhost/seriesdb'
+// const mongoconect = 'mongodb://feealc:*HerokuMongo13#DB?@ds129018.mlab.com:29018/seriesdb'
+const mongoconect = 'mongodb://seriesadm:brum@ds129018.mlab.com:29018/seriesdb'
+
+mongoose.connect(mongoconect, err => {
   if (err) {
     return console.log('error on connect db')
   }
