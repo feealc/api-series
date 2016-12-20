@@ -1,4 +1,5 @@
 var mongoose = require('mongoose')
+var gen = require('../generic/generic.controller.js')
 
 //
 
@@ -21,16 +22,20 @@ const schema = new mongoose.Schema({
     max: 4,
   },
   sp: {
-    type: Number, // mudar
+    type: Number,
+    default: null,
   },
   sm: {
-    type: Number, // mudar
+    type: Number,
+    default: null,
   },
   hia: {
-    type: Number, // mudar
+    type: Number,
+    default: null,
   },
   sf: {
-    type: Number, // mudar
+    type: Number,
+    default: null,
   },
   dia: {
     type: Number, // mudar
@@ -39,10 +44,12 @@ const schema = new mongoose.Schema({
     max: 7,
   },
   eq_leg: {
-    type: String,
+    type: Number,
+    default: null,
   },
   eq_leg_parc: {
-    type: String,
+    type: Number,
+    default: null,
   },
   assistido: {
     type: Boolean,
@@ -50,18 +57,23 @@ const schema = new mongoose.Schema({
   },
   situacao: {
     type: String,
+    default: null,
   },
   situacao_temp: {
     type: Number,
+    default: null,
   },
   emissora: {
     type: Number,
+    default: null,
   },
   dt_inicio: {
     type: Number,
+    default: null,
   },
   dt_fim: {
     type: Number,
+    default: null,
   },
   total_temp: {
     type: Number,
@@ -73,30 +85,39 @@ const schema = new mongoose.Schema({
   },
   descN: {
     type: String,
+    default: null,
   },
   qtdeN: {
     type: String,
+    default: null,
   },
   gravN: {
     type: String,
+    default: null,
   },
   dt_criacao: {
     type: Number,
+    default: gen.getCurrentDate,
   },
   dt_ult_at: {
     type: Number,
+    default: null,
   },
-  dt_temp: {
+  dd_temp: {
     type: Number,
+    default: null,
   },
   dd_ep: {
     type: String,
+    default: null,
   },
   dd_dia: {
     type: String,
+    default: null,
   },
   imdb_id: {
     type: String,
+    default: null,
   }
 })
 
