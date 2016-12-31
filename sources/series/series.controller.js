@@ -16,8 +16,10 @@ module.exports = {
 function list(req, res) {
 
 	// res.json({message:'oiiiiiii'})
+	console.log('teste list')
 	Series
 		.find({}, noShowFields)
+		.sort('nome')
 		.then(series => res.json(series))
 
 }
@@ -33,6 +35,8 @@ function getOne(req, res) {
 }
 
 function create(req, res) {
+
+	console.log('teste create')
 
 	const serie = new Series(req.body)
 
@@ -70,7 +74,7 @@ function upd(req, res) {
 	Series
 		.findById(id)
 		.then(serie => {
-			
+
 			serie.nome = req.body.nome || serie.nome
 			serie.sinalizador = req.body.sinalizador || serie.sinalizador
 			serie.status = req.body.status || serie.status
