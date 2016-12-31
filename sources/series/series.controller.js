@@ -16,7 +16,6 @@ module.exports = {
 function list(req, res) {
 
 	// res.json({message:'oiiiiiii'})
-	console.log('teste list')
 	Series
 		.find({}, noShowFields)
 		.sort('nome')
@@ -36,7 +35,11 @@ function getOne(req, res) {
 
 function create(req, res) {
 
-	console.log('teste create')
+	console.log('=============================================================')
+	console.log('func create')
+	console.log('conteudo do body')
+	console.log(req.body)
+	console.log('=============================================================')
 
 	const serie = new Series(req.body)
 
