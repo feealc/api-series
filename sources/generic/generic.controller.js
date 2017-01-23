@@ -4,11 +4,9 @@ module.exports = {
 
 function getCurrentDate() {
   
-  const currentDate = new Date()
-  const day = currentDate.getDate()
-  const month = currentDate.getMonth() + 1
-  const year = currentDate.getFullYear()
+  // const currentDate = new Date().toISOString().slice(0,10).replace(/-/g, '')
+  const currentDate = new Date().toISOString().slice(0,10)
 
-  return `${year}${month}${day}`
+  return currentDate
 
 }

@@ -60,12 +60,22 @@ function create(req, res) {
 
 function del(req, res) {
 
+	console.log('iniciando func del')
+
 	const id = req.params.id
+	console.log(`parametro recebido id=${id}`)
+
 	const message = 'Serie successfully deleted'
 
 	Series
 		.findByIdAndRemove(id)
 		.then(res.json({message}))
+		.catch((err) => {
+			console.log(err)
+			return res
+				.status(400)
+				.json({message: 'erro ao apagar serie'})
+		})
 
 }
 

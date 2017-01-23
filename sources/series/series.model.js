@@ -96,11 +96,11 @@ const schema = new mongoose.Schema({
     default: null,
   },
   dt_criacao: {
-    type: Number,
+    type: String,
     default: gen.getCurrentDate,
   },
   dt_ult_at: {
-    type: Number,
+    type: String,
     default: null,
   },
   dd_temp: {
