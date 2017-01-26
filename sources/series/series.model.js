@@ -22,19 +22,19 @@ const schema = new mongoose.Schema({
     max: 4,
   },
   sp: {
-    type: Number,
+    type: String,
     default: null,
   },
   sm: {
-    type: Number,
+    type: String,
     default: null,
   },
   hia: {
-    type: Number,
+    type: String,
     default: null,
   },
   sf: {
-    type: Number,
+    type: String,
     default: null,
   },
   dia: {
