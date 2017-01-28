@@ -91,10 +91,30 @@ function upd(req, res) {
 			serie.nome = req.body.nome || serie.nome
 			serie.sinalizador = req.body.sinalizador || serie.sinalizador
 			serie.status = req.body.status || serie.status
-			serie.sp = req.body.sp || serie.sp
-			serie.sm = req.body.sm || serie.sm
-			serie.hia = req.body.hia || serie.hia
-			serie.sf = req.body.sf || serie.sf
+			// sp
+			if (req.body.sp == 'null') {
+				serie.sp = null
+			} else {
+				serie.sp = req.body.sp || serie.sp
+			}
+			// sm
+			if (req.body.sm == 'null') {
+				serie.sm = null
+			} else {
+				serie.sm = req.body.sm || serie.sm
+			}
+			// hia
+			if (req.body.hia == 'null') {
+				serie.hia = null
+			} else {
+				serie.hia = req.body.hia || serie.hia
+			}
+			// sf
+			if (req.body.sf == 'null') {
+				serie.sf = null
+			} else {
+				serie.sf = req.body.sf || serie.sf
+			}
 			serie.dia = req.body.dia || serie.dia
 			serie.eq_leg = req.body.eq_leg || serie.eq_leg
 			serie.eq_leg_parc = req.body.eq_leg_parc || serie.eq_leg_parc
