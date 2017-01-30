@@ -68,11 +68,11 @@ const schema = new mongoose.Schema({
     default: null,
   },
   dt_inicio: {
-    type: Number,
+    type: String,
     default: null,
   },
   dt_fim: {
-    type: Number,
+    type: String,
     default: null,
   },
   total_temp: {
