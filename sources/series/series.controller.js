@@ -35,12 +35,6 @@ function getOne(req, res) {
 
 function create(req, res) {
 
-	console.log('=============================================================')
-	console.log('func create')
-	console.log('conteudo do body')
-	console.log(req.body)
-	console.log('=============================================================')
-
 	const serie = new Series(req.body)
 
 	serie
@@ -48,24 +42,21 @@ function create(req, res) {
 		.then(() => {
 			return res
 				.status(200)
-				.json({message: 'created'})
+				.json({message: 'serie criada com sucesso'})
 		})
 		.catch((err) => {
 			console.log(err)
 			return res
 				.status(400)
-				.json({message: 'error to create new serie'})
+				.json({message: 'falha ao criar nova serie'})
 		})
 }
 
 function del(req, res) {
 
-	console.log('iniciando func del')
-
 	const id = req.params.id
-	console.log(`parametro recebido id=${id}`)
 
-	const message = 'Serie successfully deleted'
+	const message = 'Serie apagada com sucesso'
 
 	Series
 		.findByIdAndRemove(id)
@@ -82,7 +73,6 @@ function del(req, res) {
 function upd(req, res) {
 
 	const id = req.body.id || req.params.id
-	const message = 'ok'
 
 	Series
 		.findById(id)
@@ -147,7 +137,7 @@ function upd(req, res) {
 					console.log(err)
 					return res
 						.status(400)
-						.json({message: 'erro ao atualizar serie'})
+						.json({message: 'erro ao alterar serie'})
 				})
 
 		})
