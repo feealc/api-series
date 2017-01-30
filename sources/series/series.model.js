@@ -64,7 +64,7 @@ const schema = new mongoose.Schema({
     default: null,
   },
   emissora: {
-    type: Number,
+    type: String,
     default: null,
   },
   dt_inicio: {
