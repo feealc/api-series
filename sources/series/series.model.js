@@ -44,11 +44,11 @@ const schema = new mongoose.Schema({
     max: 7,
   },
   eq_leg: {
-    type: Number,
+    type: String,
     default: null,
   },
   eq_leg_parc: {
-    type: Number,
+    type: String,
     default: null,
   },
   assistido: {
