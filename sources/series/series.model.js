@@ -10,13 +10,13 @@ const schema = new mongoose.Schema({
     unique: true,
   },
   sinalizador: {
-    type: Number, // mudar
+    type: Number,
     required: true,
     min: 0,
     max: 2,
   },
   status: {
-    type: Number, // mudar
+    type: Number,
     required: true,
     min: 0,
     max: 4,
@@ -38,7 +38,7 @@ const schema = new mongoose.Schema({
     default: null,
   },
   dia: {
-    type: Number, // mudar
+    type: Number,
     required: true,
     min: 0,
     max: 7,
@@ -84,15 +84,15 @@ const schema = new mongoose.Schema({
     default: 0,
   },
   descN: {
-    type: String,
+    type: [String],
     default: null,
   },
   qtdeN: {
-    type: String,
+    type: [Number],
     default: null,
   },
   gravN: {
-    type: String,
+    type: [Number],
     default: null,
   },
   dt_criacao: {

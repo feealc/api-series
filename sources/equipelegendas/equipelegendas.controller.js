@@ -1,4 +1,5 @@
 var EquipeLegendas = require('./equipelegendas.model.js')
+var Series = require('../series/series.model.js')
 var gen = require('../generic/generic.controller.js')
 
 //
@@ -80,11 +81,31 @@ function del(req, res) {
 
 	const id = req.params.id
 
-	const message = 'equipe de legenda apagada com sucesso'
+	Series
+		.update({eq_leg : id}, { $set: {eq_leg : null}}, {multi: true})
+		.then()
+		.catch((err) => {
+			return res
+				.status(400)
+				.json({message: 'erro ao setar equipe legenda como null'})
+		})
+
+	Series
+		.update({eq_leg_parc : id}, { $set: {eq_leg_parc : null}}, {multi: true})
+		.then()
+		.catch((err) => {
+			return res
+				.status(400)
+				.json({message: 'erro ao setar equipe legenda parceira como null'})
+		})
 
 	EquipeLegendas
 		.findByIdAndRemove(id)
-		.then(res.json({message}))
+		.then(() => {
+			return res
+				.status(200)
+				.json({message: 'equipe de legenda apagada com sucesso'})
+		})
 		.catch((err) => {
 			console.log(err)
 			return res

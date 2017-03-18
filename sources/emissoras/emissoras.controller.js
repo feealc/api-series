@@ -1,4 +1,5 @@
 var Emissoras = require('./emissoras.model.js')
+var Series = require('../series/series.model.js')
 var gen = require('../generic/generic.controller.js')
 
 //
@@ -18,7 +19,6 @@ function list(req, res) {
 		.find({}, noShowFields)
 		.sort('nome')
 		.then(emissoras => res.json(emissoras))
-
 }
 
 function create(req, res) {
@@ -70,24 +70,38 @@ function upd(req, res) {
 				.status(400)
 				.json({message: 'erro ao recuperar emissora'})
 		})
-
 }
 
 function del(req, res) {
 
 	const id = req.params.id
 
-	const message = 'emissora apagada com sucesso'
+	Series
+		.update({emissora : id}, { $set: {emissora : null}}, {multi: true})
+		.then(() => {
+			// return res
+			// 	.status(200)
+			// 	.json({message: 'emissora setada como null com sucesso'})
+		})
+		.catch((err) => {
+			return res
+				.status(400)
+				.json({message: 'erro ao setar emissora como null'})
+		})
 
 	Emissoras
 		.findByIdAndRemove(id)
-		.then(res.json({message}))
+		.then(() => {
+			return res
+				.status(200)
+				.json({message: 'emissora apagada com sucesso'})
+		})
 		.catch((err) => {
 			console.log(err)
 			return res
 				.status(400)
 				.json({message: 'erro ao apagar emissora'})
 		})
-
 }
+
 

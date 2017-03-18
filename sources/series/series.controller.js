@@ -9,13 +9,13 @@ module.exports = {
 	list,
 	getOne,
 	create,
-	del,
 	upd,
+	del,
+	delAll
 }
 
 function list(req, res) {
 
-	// res.json({message:'oiiiiiii'})
 	Series
 		.find({}, noShowFields)
 		.sort('nome')
@@ -50,24 +50,6 @@ function create(req, res) {
 				.status(400)
 				.json({message: 'falha ao criar nova serie'})
 		})
-}
-
-function del(req, res) {
-
-	const id = req.params.id
-
-	const message = 'Serie apagada com sucesso'
-
-	Series
-		.findByIdAndRemove(id)
-		.then(res.json({message}))
-		.catch((err) => {
-			console.log(err)
-			return res
-				.status(400)
-				.json({message: 'erro ao apagar serie'})
-		})
-
 }
 
 function upd(req, res) {
@@ -149,7 +131,41 @@ function upd(req, res) {
 
 }
 
+function del(req, res) {
 
+	const id = req.params.id
 
+	const message = 'Serie apagada com sucesso'
+
+	Series
+		.findByIdAndRemove(id)
+		.then(res.json({message}))
+		.catch((err) => {
+			console.log(err)
+			return res
+				.status(400)
+				.json({message: 'erro ao apagar serie'})
+		})
+
+}
+
+function delAll(req, res) {
+
+	Series
+		.remove({})
+		.then(() => {
+			console.log('\n===== TODOS AS SERIES FORAM APAGADOS!!!! =====\n')
+			return res
+				.status(200)
+				.json({message: 'TodasSeriesApagados'})
+		})
+		.catch((err) => {
+			console.log(err)
+			return res
+				.status(400)
+				.json({message: 'ErroApagarTodasSeries'})
+		})
+
+}
 
 

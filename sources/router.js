@@ -14,6 +14,10 @@ router
 	.post(series.create)
 
 router
+	.route('/series/apagartudo')
+	.get(series.delAll)
+
+router
 	.route('/emissoras')
 	.get(emissoras.list)
 	.post(emissoras.create)
