@@ -1,11 +1,11 @@
 {
   "name": "api-Series",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "API para fazer o meu controle de series",
   "main": "index.js",
   "scripts": {
     "dev": "nodemon sources/app.js",
-    "prod": "pm2 start sources/app.js",
+    "apidoc": "apidoc -f sources -e node_modules",
     "start": "node sources/app.js"
   },
   "keywords": [],
@@ -15,6 +15,8 @@
     "bluebird": "^3.4.6",
     "body-parser": "^1.15.2",
     "express": "^4.14.0",
+    "express-validator": "^3.1.2",
+    "is-valid-date": "0.0.1",
     "mongoose": "^4.7.1",
     "nodemon": "^1.11.0",
     "valid-objectid": "0.0.2"
@@ -27,5 +29,23 @@
   "bugs": {
     "url": "https://github.com/feealc/api-series/issues"
   },
-  "homepage": "https://github.com/feealc/api-series#readme"
+  "homepage": "https://github.com/feealc/api-series#readme",
+  "apidoc": {
+    "title": "API Series",
+    "url": "https://api-serie.herokuapp.com/api",
+    "order": [
+      "Serie",
+      "getAllSeries",
+      "getOneSerie",
+      "createSerie",
+      "updSerie",
+      "delSerie",
+      "delAllSeries"
+    ],
+    "template": {
+      "forceLanguage": "pt_br",
+      "withCompare": true,
+      "withGenerator": true
+    }
+  }
 }

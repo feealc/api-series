@@ -12,14 +12,10 @@ const schema = new mongoose.Schema({
   sinalizador: {
     type: Number,
     required: true,
-    min: 0,
-    max: 2,
   },
   status: {
     type: Number,
     required: true,
-    min: 0,
-    max: 4,
   },
   sp: {
     type: String,
@@ -40,8 +36,6 @@ const schema = new mongoose.Schema({
   dia: {
     type: Number,
     required: true,
-    min: 0,
-    max: 7,
   },
   eq_leg: {
     type: String,

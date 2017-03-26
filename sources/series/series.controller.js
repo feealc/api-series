@@ -1,163 +1,394 @@
 var Series = require('./series.model.js')
 var gen = require('../generic/generic.controller.js')
-
+var validate = require('../validate/validate.controller.js')
+//
+var generic = require('../generic/generic.default.js')
+var mR_S = generic.msgResponseSerie
 //
 
 const noShowFields = '-__v'
 
 module.exports = {
-	list,
-	getOne,
-	create,
-	upd,
-	del,
-	delAll
+	getAllSeries,
+	getOneSerie,
+	createSerie,
+	updSerie,
+	delSerie,
+	delAllSeries
 }
 
-function list(req, res) {
+/**
+ * @api {get} /series getAllSeries
+ * @apiVersion 1.0.0
+ * @apiName getAllSeries
+ * @apiGroup Serie
+ *
+ * @apiUse SerieRetornoSucesso
+ *
+ * @apiSuccessExample {json} Success-Response:
+ *     HTTP/1.1 200 OK
+ *     [{
+ *       "_id": "XYZ",
+ *       "nome": "Teste",
+ *       "sinalizador": 1,
+ *       "status": 1,
+ *       "sp": null,
+ *       "sm": "1997-12-19",
+ *       "hia": null,
+ *       "sf": null,
+ *       "dia": 1,
+ *       "eq_leg": null,
+ *       "eq_leg_parc": null,
+ *       "assistido": false,
+ *       "situacao": null,
+ *       "situacao_temp": null,
+ *       "emissora": null,
+ *       "dt_inicio": "2011-01-01",
+ *       "dt_fim": "2017-01-01",
+ *       "total_temp": 3,
+ *       "total_ep": 15,
+ *       "descN": ["Todos", "1 ao 5", "Nenhum"],
+ *       "qtdeN": [10, 5, 0],
+ *       "gravN": [0, 0, 0],
+ *       "dt_criacao": "2017-01-01",
+ *       "dt_ult_at": "2017-01-02",
+ *       "dd_temp": null,
+ *       "dd_ep": null,
+ *       "dd_dia": nul,
+ *       "imdb_id": "xpto"
+ *     }]
+ *
+ */
+function getAllSeries(req, res) {
 
 	Series
 		.find({}, noShowFields)
 		.sort('nome')
-		.then(series => res.json(series))
+		.then((series) => {
+			return res
+				.status(200)
+				.json(series)
+		})
+		.catch((err) => {
+			console.log(err)
+			return res
+				.status(500)
+				.json({message: mR_S.s500all})
+		})
 
 }
 
-function getOne(req, res) {
+/**
+ * @api {get} /series/:id getOneSerie
+ * @apiVersion 1.0.0
+ * @apiName getOneSerie
+ * @apiGroup Serie
+ *
+ * @apiUse SerieRetornoSucesso
+ *
+ * @apiSuccessExample {json} Success-Response:
+ *     HTTP/1.1 200 OK
+ *     {
+ *       "_id": "XYZ",
+ *       "nome": "Teste",
+ *       "sinalizador": 1,
+ *       "status": 1,
+ *       "sp": null,
+ *       "sm": "1997-12-19",
+ *       "hia": null,
+ *       "sf": null,
+ *       "dia": 1,
+ *       "eq_leg": null,
+ *       "eq_leg_parc": null,
+ *       "assistido": false,
+ *       "situacao": null,
+ *       "situacao_temp": null,
+ *       "emissora": null,
+ *       "dt_inicio": "2011-01-01",
+ *       "dt_fim": "2017-01-01",
+ *       "total_temp": 3,
+ *       "total_ep": 15,
+ *       "descN": ["Todos", "1 ao 5", "Nenhum"],
+ *       "qtdeN": [10, 5, 0],
+ *       "gravN": [0, 0, 0],
+ *       "dt_criacao": "2017-01-01",
+ *       "dt_ult_at": "2017-01-02",
+ *       "dd_temp": null,
+ *       "dd_ep": null,
+ *       "dd_dia": nul,
+ *       "imdb_id": "xpto"
+ *     }
+ *
+ * @apiUse SerieRetornoErro
+ */
+function getOneSerie(req, res) {
 
 	const id = req.body.id || req.params.id
 
 	Series
 		.findById(id, noShowFields)
-		.then(serie => res.json(serie))
-
-}
-
-function create(req, res) {
-
-	const serie = new Series(req.body)
-
-	serie
-		.save()
-		.then(() => {
-			return res
-				.status(200)
-				.json({message: 'serie criada com sucesso'})
+		.then((serie) => {
+			if (serie) {
+				return res
+					.status(200)
+					.json(serie)
+			} else {
+				return res
+					.status(404)
+					.json({message: mR_S.s404})
+			}
 		})
 		.catch((err) => {
 			console.log(err)
 			return res
-				.status(400)
-				.json({message: 'falha ao criar nova serie'})
+				.status(500)
+				.json({message: mR_S.s500one})
 		})
+
 }
 
-function upd(req, res) {
+/**
+ * @api {post} /series createSerie
+ * @apiVersion 1.0.0
+ * @apiName createSerie
+ * @apiGroup Serie
+ *
+ * @apiUse HeaderCType
+ *
+ * @apiUse SerieRequisicaoBody
+ *
+ * @apiSuccess {String} message Mensagem de sucesso.
+ * @apiSuccess {String} ID O ID da serie criada.
+ *
+ * @apiSuccessExample {json} Success-Response:
+ *     HTTP/1.1 200 OK
+ *     {
+ *       "message": "SerieCriada",
+ *       "_id": "XXX"
+ *     }
+ *
+ * @apiUse SerieRetornoErroValidacao
+ */
+function createSerie(req, res) {
+	
+	validate.runExpressValidatorSerie(req)
+
+ 	req.getValidationResult().then(function(result) {
+
+ 		if (!result.isEmpty()) {
+
+ 			return res
+ 				.status(400)
+ 				.json(result.array())
+ 		
+ 		} else {
+
+ 			const serie = new Series(req.body)
+ 			
+ 			serie
+				.save()
+				.then((serie) => {
+					return res
+						.status(201)
+						.json({message: mR_S.s201, '_id': serie._id})
+				})
+				.catch((err) => {
+					if (err.code == 11000) { // duplicate key
+						return res
+							.status(400)
+							.json({message: mR_S.s400duplikey})
+					} else {
+						console.log(err)
+					}
+					return res
+						.status(500)
+						.json({message: mR_S.s500create})
+				})
+ 		}
+	})
+
+}
+
+/**
+ * @api {put} /series/:id updSerie
+ * @apiVersion 1.0.0
+ * @apiName updSerie
+ * @apiGroup Serie
+ *
+ * @apiUse HeaderCType
+ *
+ * @apiParam {String} id ID da série.
+ *
+ * @apiUse SerieRequisicaoBody
+ *
+ * @apiSuccess {String} message Mensagem de sucesso.
+ *
+ * @apiSuccessExample {json} Success-Response:
+ *     HTTP/1.1 200 OK
+ *     {
+ *       "message": "SerieAlterada"
+ *     }
+ *
+ * @apiUse SerieRetornoErroValidacao
+ * @apiUse SerieRetornoErro
+ * @apiUse IDInvalidoErro
+ */
+function updSerie(req, res) {
+
+	const id = req.body.id || req.params.id
+
+	validate.runExpressValidatorSerie(req)
+
+ 	req.getValidationResult().then(function(result) {
+
+ 		if (!result.isEmpty()) {
+ 			
+ 			return res
+ 				.status(400)
+ 				.json(result.array())
+
+ 		} else {
+
+ 			const id = req.params.id
+
+			Filmes
+				.findById(id)
+				.then((serie) => {
+
+					if (serie) {
+
+						serie.nome = req.body.nome || serie.nome
+						serie.sinalizador = req.body.sinalizador || serie.sinalizador
+						serie.status = req.body.status || serie.status
+						// sp
+						if (req.body.sp == 'null') {
+							serie.sp = null
+						} else {
+							serie.sp = req.body.sp || serie.sp
+						}
+						// sm
+						if (req.body.sm == 'null') {
+							serie.sm = null
+						} else {
+							serie.sm = req.body.sm || serie.sm
+						}
+						// hia
+						if (req.body.hia == 'null') {
+							serie.hia = null
+						} else {
+							serie.hia = req.body.hia || serie.hia
+						}
+						// sf
+						if (req.body.sf == 'null') {
+							serie.sf = null
+						} else {
+							serie.sf = req.body.sf || serie.sf
+						}
+						serie.dia = req.body.dia || serie.dia
+						serie.eq_leg = req.body.eq_leg || serie.eq_leg
+						serie.eq_leg_parc = req.body.eq_leg_parc || serie.eq_leg_parc
+						serie.assistido = req.body.assistido || serie.assistido
+						serie.situacao = req.body.situacao || serie.situacao
+						serie.situacao_temp = req.body.situacao_temp || serie.situacao_temp
+						serie.emissora = req.body.emissora || serie.emissora
+						serie.dt_inicio = req.body.dt_inicio || serie.dt_inicio
+						serie.dt_fim = req.body.dt_fim || serie.dt_fim
+						serie.total_temp = req.body.total_temp || serie.total_temp
+						serie.total_ep = req.body.total_ep || serie.total_ep
+						serie.descN = req.body.descN || serie.descN
+						serie.qtdeN = req.body.qtdeN || serie.qtdeN
+						serie.gravN = req.body.gravN || serie.gravN
+						// serie.dt_criacao
+						serie.dt_ult_at = gen.getCurrentDate()
+						serie.dd_temp = req.body.dd_temp || serie.dd_temp
+						serie.dd_ep = req.body.dd_ep || serie.dd_ep
+						serie.dd_dia = req.body.dd_dia || serie.dd_dia
+						serie.imdb_id = req.body.imdb_id || serie.imdb_id
+
+						serie
+							.save()
+							.then(() => {
+								return res
+									.status(200)
+									.json({message: mR_S.s200upd})
+							})
+							.catch((err) => {
+								console.log(err)
+								return res
+									.status(500)
+									.json({message: mR_S.s500upd})
+							})
+
+					} else {
+						return res
+							.status(404)
+							.json({message: mR_S.s404})
+					}
+
+				})
+				.catch(() => {
+					return res
+						.status(500)
+						.json({message: mR_S.s500})
+				})		
+ 		}
+	})
+}
+
+/**
+ * @api {delete} /series/:id delSerie
+ * @apiVersion 1.0.0
+ * @apiName delSerie
+ * @apiGroup Serie
+ *
+ * @apiParam {String} id ID da série.
+ *
+ * @apiSuccess {String} message Mensagem de sucesso.
+ *
+ * @apiSuccessExample {json} Success-Response:
+ *     HTTP/1.1 200 OK
+ *     {
+ *       "message": "SerieApagada"
+ *     }
+ *
+ * @apiUse SerieRetornoErro
+ * @apiUse IDInvalidoErro
+ */
+function delSerie(req, res) {
 
 	const id = req.body.id || req.params.id
 
 	Series
-		.findById(id)
-		.then(serie => {
-
-			serie.nome = req.body.nome || serie.nome
-			serie.sinalizador = req.body.sinalizador || serie.sinalizador
-			serie.status = req.body.status || serie.status
-			// sp
-			if (req.body.sp == 'null') {
-				serie.sp = null
-			} else {
-				serie.sp = req.body.sp || serie.sp
-			}
-			// sm
-			if (req.body.sm == 'null') {
-				serie.sm = null
-			} else {
-				serie.sm = req.body.sm || serie.sm
-			}
-			// hia
-			if (req.body.hia == 'null') {
-				serie.hia = null
-			} else {
-				serie.hia = req.body.hia || serie.hia
-			}
-			// sf
-			if (req.body.sf == 'null') {
-				serie.sf = null
-			} else {
-				serie.sf = req.body.sf || serie.sf
-			}
-			serie.dia = req.body.dia || serie.dia
-			serie.eq_leg = req.body.eq_leg || serie.eq_leg
-			serie.eq_leg_parc = req.body.eq_leg_parc || serie.eq_leg_parc
-			serie.assistido = req.body.assistido || serie.assistido
-			serie.situacao = req.body.situacao || serie.situacao
-			serie.situacao_temp = req.body.situacao_temp || serie.situacao_temp
-			serie.emissora = req.body.emissora || serie.emissora
-			serie.dt_inicio = req.body.dt_inicio || serie.dt_inicio
-			serie.dt_fim = req.body.dt_fim || serie.dt_fim
-			serie.total_temp = req.body.total_temp || serie.total_temp
-			serie.total_ep = req.body.total_ep || serie.total_ep
-			serie.descN = req.body.descN || serie.descN
-			serie.qtdeN = req.body.qtdeN || serie.qtdeN
-			serie.gravN = req.body.gravN || serie.gravN
-			// serie.dt_criacao
-			serie.dt_ult_at = gen.getCurrentDate()
-			serie.dd_temp = req.body.dd_temp || serie.dd_temp
-			serie.dd_ep = req.body.dd_ep || serie.dd_ep
-			serie.dd_dia = req.body.dd_dia || serie.dd_dia
-			serie.imdb_id = req.body.imdb_id || serie.imdb_id
-
-			serie
-				.save()
-				.then(() => {
-					return res
-						.status(200)
-						.json({message: 'serie alterada com sucesso'})
-				})
-				.catch((err) => {
-					console.log(err)
-					return res
-						.status(400)
-						.json({message: 'erro ao alterar serie'})
-				})
-
-		})
-		.catch(() => {
-			return res
-				.status(400)
-				.json({message: 'erro ao recuperar serie'})
-		})
-
-}
-
-function del(req, res) {
-
-	const id = req.params.id
-
-	const message = 'Serie apagada com sucesso'
-
-	Series
 		.findByIdAndRemove(id)
-		.then(res.json({message}))
+		.then((serie) => {
+			if (serie) {
+				return res
+					.status(200)
+					.json({message: mR_F.s200del})
+			} else {
+				return res
+					.status(404)
+					.json({message: mR_S.s404})
+			}
+		})
 		.catch((err) => {
 			console.log(err)
 			return res
-				.status(400)
-				.json({message: 'erro ao apagar serie'})
+				.status(500)
+				.json({message: mR_S.s500del})
 		})
 
 }
 
-function delAll(req, res) {
+function delAllSeries(req, res) {
 
 	Series
 		.remove({})
 		.then(() => {
-			console.log('\n===== TODOS AS SERIES FORAM APAGADOS!!!! =====\n')
+			console.log('\n===== TODOS AS SERIES FORAM APAGADAS!!!! =====\n')
 			return res
 				.status(200)
-				.json({message: 'TodasSeriesApagados'})
+				.json({message: 'TodasSeriesApagadas'})
 		})
 		.catch((err) => {
 			console.log(err)

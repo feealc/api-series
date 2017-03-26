@@ -3,6 +3,9 @@ var mongoose = require('mongoose')
 var bluebird = require('bluebird')
 var router = require('./router.js')
 var bodyParser = require('body-parser')
+var expressValidator = require('express-validator')
+//
+var cV = require('./validate/validate.controller.js').customValidators
 
 //
 
@@ -11,6 +14,8 @@ const port = process.env.PORT || 4000
 
 server
 	.use(bodyParser.json())
+	.use(expressValidator({customValidators: cV}))
+	.use('/api/doc', express.static('doc'))
 	.use('/api', router)
 
 mongoose.Promise = bluebird

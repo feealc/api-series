@@ -10,12 +10,12 @@ const router = express.Router()
 
 router
 	.route('/series')
-	.get(series.list)
-	.post(series.create)
+	.get(series.getAllSeries)
+	.post(series.createSerie)
 
 router
 	.route('/series/apagartudo')
-	.get(series.delAll)
+	.get(series.delAllSeries)
 
 router
 	.route('/emissoras')
@@ -31,9 +31,9 @@ router.param('id', validate.id)
 
 router
 	.route('/series/:id')
-	.get(series.getOne)
-	.delete(series.del)
-	.put(series.upd)
+	.get(series.getOneSerie)
+	.delete(series.delSerie)
+	.put(series.updSerie)
 
 router
 	.route('/emissoras/:id')
