@@ -27,16 +27,12 @@ var errorMessagesValidatorSerie = {
 	'imdb_id': ''
 }
 
-var errorMessagesValidatorUsuario = {
-	// 'username': 'O username é obrigatório e não pode conter espaço e caracter especial',
-	// 'password': 'A senha é obrigatória e precisa ter uma letra maiúscula, um número e um caracter especial',
-	// 'email': 'O e-mail é obrigatório e precisa ser válido'
+var errorMessagesValidatorEmissora = {
+	'nome': 'O nome é obrigatório'
 }
 
-var errorMessagesValidatorUsuarioAuth = {
-	// 'username': 'O username é obrigatório',
-	// 'password': 'A senha é obrigatória',
-	// 'expiresIn': 'A expiração do token precisa estar no formato N[s|m|h]. Exemplo: 10s (10 segundos) ou 2h (2 horas)'
+var errorMessagesValidatorEquipeLegenda = {
+	'nome': 'O nome é obrigatório'
 }
 
 var msgResponse = {
@@ -61,11 +57,45 @@ var msgResponseSerie = {
 	//
 }
 
+var msgResponseEmissora = {
+	'e200upd': 'EmissoraAlterada',
+	'e200del': 'EmissoraApagada',
+	//
+	'e201': 'EmissoraCriada',
+	//
+	'e400duplikey': 'EmissoraJaExiste',
+	'e404': 'EmissoraNaoEncontrada',
+	//
+	'e500all': 'ErroRecuperarEmissoras',
+	'e500create': 'ErroCriarEmissora',
+	'e500del': 'ErroApagarEmissora',
+	'e500upd': 'ErroAlterarEmissora'
+	//
+}
+
+var msgResponseEquipeLegenda = {
+	'el200upd': 'EquipeLegendaAlterada',
+	'el200del': 'EquipeLegendaApagada',
+	//
+	'el201': 'EquipeLegendaCriada',
+	//
+	'el400duplikey': 'EquipeLegendaJaExiste',
+	'el404': 'EquipeLegendaNaoEncontrada',
+	//
+	'el500all': 'ErroRecuperarEquipeLegendas',
+	'el500create': 'ErroCriarEquipeLegenda',
+	'el500del': 'ErroApagarEquipeLegenda',
+	'el500upd': 'ErroAlterarEquipeLegenda'
+	//
+}
+
 module.exports = {
 	errorMessagesValidatorSerie,
-	errorMessagesValidatorUsuario,
-	errorMessagesValidatorUsuarioAuth,
+	errorMessagesValidatorEmissora,
+	errorMessagesValidatorEquipeLegenda,
 	//
 	msgResponse,
-	msgResponseSerie
+	msgResponseSerie,
+	msgResponseEmissora,
+	msgResponseEquipeLegenda
 }

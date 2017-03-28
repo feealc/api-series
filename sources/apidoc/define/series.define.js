@@ -103,9 +103,9 @@
  *
  * @apiError  (Error 404) SerieNaoEncontradA O ID da série não foi encontrado.
  *
- * @apiErrorExample {json} FilmeNaoEncontrado:
+ * @apiErrorExample {json} SerieNaoEncontrada:
  *     HTTP/1.1 404 Not Found
  *     {
- *       "message": "FilmeNaoEncontrado"
+ *       "message": "SerieNaoEncontrado"
  *     }
 */

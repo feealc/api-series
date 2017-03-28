@@ -19,13 +19,15 @@ router
 
 router
 	.route('/emissoras')
-	.get(emissoras.list)
-	.post(emissoras.create)
+	.get(emissoras.getAllEmissoras)
+	.post(emissoras.createEmissora)
 
 router
 	.route('/equipelegendas')
-	.get(equipelegendas.list)
-	.post(equipelegendas.create)
+	.get(equipelegendas.getAllEquipeLegendas)
+	.post(equipelegendas.createEquipeLegenda)
+
+//
 
 router.param('id', validate.id)
 
@@ -37,12 +39,12 @@ router
 
 router
 	.route('/emissoras/:id')
-	.delete(emissoras.del)
-	.put(emissoras.upd)
+	.delete(emissoras.delEmissora)
+	.put(emissoras.updEmissora)
 
 router
 	.route('/equipelegendas/:id')
-	.delete(equipelegendas.del)
-	.put(equipelegendas.upd)
+	.delete(equipelegendas.delEquipeLegenda)
+	.put(equipelegendas.updEquipeLegenda)
 
 module.exports = router

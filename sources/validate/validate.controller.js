@@ -4,6 +4,8 @@ var isValidDate = require('is-valid-date')
 var generic = require('../generic/generic.default.js')
 var mR = generic.msgResponse
 var eMV_S = generic.errorMessagesValidatorSerie
+var eMV_E = generic.errorMessagesValidatorEmissora
+var eMV_EL = generic.errorMessagesValidatorEquipeLegenda
 
 //
 
@@ -18,7 +20,7 @@ function id(req, res, next, value) {
 
 function runExpressValidatorSerie(req) {
 
-	const locale = 'pt-BR'
+	// const locale = 'pt-BR'
 
 	req.checkBody('nome', eMV_S.nome).notEmpty()
 	req.checkBody('sinalizador', eMV_S.sinalizador).isSinalizador()
@@ -45,6 +47,18 @@ function runExpressValidatorSerie(req) {
 	req.checkBody('dd_ep', eMV_S.dd_ep).optional() // criar a validacao
 	req.checkBody('dd_dia', eMV_S.dd_dia).optional() // criar a validacao
 	req.checkBody('imdb_id', eMV_S.imdb_id).optional() // criar a validacao
+
+}
+
+function runExpressValidatorEmissora(req) {
+
+	req.checkBody('nome', eMV_E.nome).notEmpty()
+
+}
+
+function runExpressValidatorEquipeLegenda(req) {
+
+	req.checkBody('nome', eMV_EL.nome).notEmpty()
 
 }
 
@@ -75,17 +89,20 @@ var customValidators = {
     //
     isArrayNumber: function(value) {
         if (!Array.isArray(value)) { // verificar se o que foi passado eh um array
+            console.log('isArrayNumber - not array')
             return false
     	}
         // if (value.length == 0) { // o array precisa estar preenchido
         //     return false
         // }
     	for (i = 0; i < value.length; i++) { // vericar posicao por posicao do array
-            var v = value[i]
+            var v = `${value[i]}`
     		if (!(!isNaN(parseFloat(v)) && isFinite(v))) { // verificar se eh um numero
+                console.log(`isArrayNumber - NaN [${v}]`)
     			return false
     		}
             if (v == "") { // verificar se nao esta em branco
+                console.log(`isArrayNumber - NaN [${v}]`)
                 return false
             }
     	}
@@ -106,6 +123,7 @@ var customValidators = {
     },
     //
     isData: function(value) {
+        value = `${value}` // transformar para string
     	if (value == '') { // verificar se nao esta vazio
             return false
         }
@@ -128,6 +146,7 @@ var customValidators = {
     },
     //
     isDataISO8601: function(value) {
+        value = `${value}` // transformar para string
     	var arrayDatas = value.split("-")
     	if (arrayDatas.length != 3) { // verificar se o array tem 3 elementos (ano, mes e dia)
     		return false
@@ -303,6 +322,8 @@ module.exports = {
 	id,
 	//
 	runExpressValidatorSerie,
+	runExpressValidatorEmissora,
+	runExpressValidatorEquipeLegenda,
 	//
 	customValidators
 }

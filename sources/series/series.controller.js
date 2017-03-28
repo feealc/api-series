@@ -4,6 +4,7 @@ var validate = require('../validate/validate.controller.js')
 //
 var generic = require('../generic/generic.default.js')
 var mR_S = generic.msgResponseSerie
+
 //
 
 const noShowFields = '-__v'
@@ -235,8 +236,6 @@ function createSerie(req, res) {
  */
 function updSerie(req, res) {
 
-	const id = req.body.id || req.params.id
-
 	validate.runExpressValidatorSerie(req)
 
  	req.getValidationResult().then(function(result) {
@@ -249,9 +248,9 @@ function updSerie(req, res) {
 
  		} else {
 
- 			const id = req.params.id
+ 			const id = req.body.id || req.params.id
 
-			Filmes
+			Series
 				.findById(id)
 				.then((serie) => {
 
@@ -380,6 +379,21 @@ function delSerie(req, res) {
 
 }
 
+/**
+ * @api {get} /series/apagartudo delAllSeries
+ * @apiName delAllSeries
+ * @apiGroup Serie
+ *
+ * @apiUse HeaderCType
+ *
+ * @apiSuccess {String} message Mensagem de sucesso.
+ *
+ * @apiSuccessExample {json} Success-Response:
+ *     HTTP/1.1 200 OK
+ *     {
+ *       "message": "TodasSeriesApagadas"
+ *     }
+ */
 function delAllSeries(req, res) {
 
 	Series
@@ -398,5 +412,3 @@ function delAllSeries(req, res) {
 		})
 
 }
-
-
