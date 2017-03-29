@@ -239,7 +239,8 @@ var customValidators = {
     },
     //
     isBool: function(value) {
-    	if (value != 'false' && value != 'true') {
+        var v = `${value}` // transformar para string
+    	if (v != 'false' && v != 'true') {
     		return false
     	}
     	return true
