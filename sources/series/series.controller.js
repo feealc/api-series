@@ -363,7 +363,7 @@ function delSerie(req, res) {
 			if (serie) {
 				return res
 					.status(200)
-					.json({message: mR_F.s200del})
+					.json({message: mR_S.s200del})
 			} else {
 				return res
 					.status(404)
