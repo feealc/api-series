@@ -89,20 +89,14 @@ var customValidators = {
     //
     isArrayNumber: function(value) {
         if (!Array.isArray(value)) { // verificar se o que foi passado eh um array
-            console.log('isArrayNumber - not array')
             return false
     	}
-        // if (value.length == 0) { // o array precisa estar preenchido
-        //     return false
-        // }
     	for (i = 0; i < value.length; i++) { // vericar posicao por posicao do array
             var v = `${value[i]}`
     		if (!(!isNaN(parseFloat(v)) && isFinite(v))) { // verificar se eh um numero
-                console.log(`isArrayNumber - NaN [${v}]`)
     			return false
     		}
-            if (v == "") { // verificar se nao esta em branco
-                console.log(`isArrayNumber - NaN [${v}]`)
+            if (v.search(/[\.|\,]/) >= 0) { // verificar se tem ponto ou virgula
                 return false
             }
     	}
@@ -118,15 +112,15 @@ var customValidators = {
             if (v == "") { // verificar se nao esta em branco
                 return false
             }
+            if (v.search(/[^A-Za-z0-9\s]/) >= 0) { // verificar se tem caracter especial
+                return false
+            }
     	}
     	return true
     },
     //
     isData: function(value) {
         value = `${value}` // transformar para string
-    	if (value == '') { // verificar se nao esta vazio
-            return false
-        }
         if (value == 'null') { // null eh para apagar 
         	return true
         }
@@ -163,17 +157,14 @@ var customValidators = {
     },
     //
     isSinalizador: function(value) {
-    	value = `${value}` // transformar para string
     	if (value === undefined) { // verificar se esta presente
             return false
         }
-        if (value == '') { // verificar se nao esta vazio
-            return false
-        }
+        value = `${value}` // transformar para string
         if (!(!isNaN(parseFloat(value)) && isFinite(value))) { // verificar se eh um numero
             return false
         }
-        value = `${value}` // transformar para string
+        // value = `${value}` // transformar para string
         if (value.search(/[\.|\,]/) >= 0) { // verificar se tem ponto ou virgula
             return false
         }
@@ -184,17 +175,13 @@ var customValidators = {
     },
     //
     isStatus: function(value) {
-    	value = `${value}` // transformar para string
     	if (value === undefined) { // verificar se esta presente
             return false
         }
-        if (value == '') { // verificar se nao esta vazio
-            return false
-        }
+        value = `${value}` // transformar para string
         if (!(!isNaN(parseFloat(value)) && isFinite(value))) { // verificar se eh um numero
             return false
         }
-        value = `${value}` // transformar para string
         if (value.search(/[\.|\,]/) >= 0) { // verificar se tem ponto ou virgula
             return false
         }
@@ -205,36 +192,27 @@ var customValidators = {
     },
     //
     isDia: function(value) {
-    	value = `${value}` // transformar para string
     	if (value === undefined) { // verificar se esta presente
     		return false
         }
-        if (value == '') { // verificar se nao esta vazio
-        	return false
-        }
+        value = `${value}` // transformar para string
         if (!(!isNaN(parseFloat(value)) && isFinite(value))) { // verificar se eh um numero
         	return false
         }
         if (value.search(/[\.|\,]/) >= 0) { // verificar se tem ponto ou virgula
         	return false
         }
-        if (value < 0 || value > 7) { // verificar se o numero esta no range de 0 e 4
+        if (value < 0 || value > 7) { // verificar se o numero esta no range de 0 e 7
         	return false
         }
     	return true
     },
     //
     isEquipeLegenda: function(value) {
-    	if (value == '') { // verificar se nao esta vazio
-            return false
-        }
         return validId.isValid(value)
     },
     //
     isEmissora: function(value) {
-    	if (value == '') { // verificar se nao esta vazio
-            return false
-        }
         return validId.isValid(value)
     },
     //

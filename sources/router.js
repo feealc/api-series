@@ -35,7 +35,8 @@ router
 	.route('/series/:id')
 	.get(series.getOneSerie)
 	.delete(series.delSerie)
-	.put(series.updSerie)
+	.put(series.updFullSerie)
+	.patch(series.updParcialSerie)
 
 router
 	.route('/emissoras/:id')
@@ -46,5 +47,7 @@ router
 	.route('/equipelegendas/:id')
 	.delete(equipelegendas.delEquipeLegenda)
 	.put(equipelegendas.updEquipeLegenda)
+
+//
 
 module.exports = router

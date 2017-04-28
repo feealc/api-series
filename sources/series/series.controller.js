@@ -13,7 +13,8 @@ module.exports = {
 	getAllSeries,
 	getOneSerie,
 	createSerie,
-	updSerie,
+	updFullSerie,
+	updParcialSerie,
 	delSerie,
 	delAllSeries
 }
@@ -211,9 +212,9 @@ function createSerie(req, res) {
 }
 
 /**
- * @api {put} /series/:id updSerie
+ * @api {put} /series/:id updFullSerie
  * @apiVersion 1.0.0
- * @apiName updSerie
+ * @apiName updFullSerie
  * @apiGroup Serie
  *
  * @apiUse HeaderCType
@@ -234,7 +235,119 @@ function createSerie(req, res) {
  * @apiUse SerieRetornoErro
  * @apiUse IDInvalidoErro
  */
-function updSerie(req, res) {
+function updFullSerie(req, res) { // put
+
+	validate.runExpressValidatorSerie(req)
+
+ 	req.getValidationResult().then(function(result) {
+
+ 		if (!result.isEmpty()) {
+ 			
+ 			return res
+ 				.status(400)
+ 				.json(result.array())
+
+ 		} else {
+
+ 			const id = req.body.id || req.params.id
+ 			const novaSerie = new Series(req.body)
+
+			Series
+				.findById(id)
+				.then((serie) => {
+
+					if (serie) {
+
+						serie.nome = novaSerie.nome
+						serie.sinalizador = novaSerie.sinalizador
+						serie.status = novaSerie.status
+						serie.sp = novaSerie.sp
+						serie.sm = novaSerie.sm
+						serie.hia = novaSerie.hia
+						serie.sf = novaSerie.sf
+						serie.dia = novaSerie.dia
+						serie.eq_leg = novaSerie.eq_leg
+						serie.eq_leg_parc = novaSerie.eq_leg_parc
+						serie.assistido = novaSerie.assistido
+						serie.situacao = novaSerie.situacao
+						serie.situacao_temp = novaSerie.situacao_temp
+						serie.emissora = novaSerie.emissora
+						serie.dt_inicio = novaSerie.dt_inicio
+						serie.dt_fim = novaSerie.dt_fim
+						serie.total_temp = novaSerie.total_temp
+						serie.total_ep = novaSerie.total_ep
+						serie.descN = novaSerie.descN
+						serie.qtdeN = novaSerie.qtdeN
+						serie.gravN = novaSerie.gravN
+						// serie.dt_criacao
+						serie.dt_ult_at = gen.getCurrentDate()
+						serie.dd_temp = novaSerie.dd_temp
+						serie.dd_ep = novaSerie.dd_ep
+						serie.dd_dia = novaSerie.dd_dia
+						serie.imdb_id = novaSerie.imdb_id
+
+						serie
+							.save()
+							.then(() => {
+								return res
+									.status(200)
+									.json({message: mR_S.s200upd})
+							})
+							.catch((err) => {
+								if (err.code == 11000) { // duplicate key
+									return res
+										.status(400)
+										.json({message: mR_S.s400duplikey})
+								} else {
+									console.log(err)
+								}
+								return res
+									.status(500)
+									.json({message: mR_S.s500upd})
+							})
+
+					} else {
+						return res
+							.status(404)
+							.json({message: mR_S.s404})
+					}
+
+				})
+				.catch(() => {
+					return res
+						.status(500)
+						.json({message: mR_S.s500})
+				})		
+ 		}
+	})
+
+}
+
+/**
+ * @api {patch} /series/:id updParcialSerie
+ * @apiVersion 1.0.0
+ * @apiName updParcialSerie
+ * @apiGroup Serie
+ *
+ * @apiUse HeaderCType
+ *
+ * @apiParam {String} id ID da série.
+ *
+ * @apiUse SerieRequisicaoBody
+ *
+ * @apiSuccess {String} message Mensagem de sucesso.
+ *
+ * @apiSuccessExample {json} Success-Response:
+ *     HTTP/1.1 200 OK
+ *     {
+ *       "message": "SerieAlterada"
+ *     }
+ *
+ * @apiUse SerieRetornoErroValidacao
+ * @apiUse SerieRetornoErro
+ * @apiUse IDInvalidoErro
+ */
+function updParcialSerie(req, res) { // patch
 
 	validate.runExpressValidatorSerie(req)
 
@@ -312,7 +425,13 @@ function updSerie(req, res) {
 									.json({message: mR_S.s200upd})
 							})
 							.catch((err) => {
-								console.log(err)
+								if (err.code == 11000) { // duplicate key
+									return res
+										.status(400)
+										.json({message: mR_S.s400duplikey})
+								} else {
+									console.log(err)
+								}
 								return res
 									.status(500)
 									.json({message: mR_S.s500upd})
@@ -332,6 +451,7 @@ function updSerie(req, res) {
 				})		
  		}
 	})
+	
 }
 
 /**

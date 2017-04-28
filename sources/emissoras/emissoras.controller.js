@@ -188,7 +188,8 @@ function updEmissora(req, res) {
 					}
 
 				})
-				.catch(() => {
+				.catch((err) => {
+					console.log(err)
 					return res
 						.status(500)
 						.json({message: mR_E.e500upd})
