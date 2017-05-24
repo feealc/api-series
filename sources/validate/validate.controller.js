@@ -31,7 +31,7 @@ function runExpressValidatorSerie(req) {
 	req.checkBody('sf', eMV_S.sf).optional().isData()
 	req.checkBody('dia', eMV_S.dia).isDia()
 	req.checkBody('eq_leg', eMV_S.eq_leg).optional().isEquipeLegenda()
-	req.checkBody('eq_leg_parc', eMV_S.eq_leg).optional().isEquipeLegenda()
+	req.checkBody('eq_leg_parc', eMV_S.eq_leg_parc).optional().isEquipeLegendaParceira()
 	req.checkBody('assistido', eMV_S.assistido).optional().isBool()
 	req.checkBody('situacao', eMV_S.situacao).optional() // criar a validacao
 	req.checkBody('situacao_temp', eMV_S.situacao_temp).optional() // criar a validacao
@@ -209,6 +209,19 @@ var customValidators = {
     },
     //
     isEquipeLegenda: function(value) {
+        if (value == '001indf') { // indefinido
+            return true
+        }
+        return validId.isValid(value)
+    },
+    //
+    isEquipeLegendaParceira: function(value) {
+        if (value == '001indf') { // indefinido
+            return true
+        }
+        if (value == '002sp') { // sem parceria
+            return true
+        }
         return validId.isValid(value)
     },
     //

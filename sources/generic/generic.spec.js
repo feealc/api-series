@@ -86,7 +86,9 @@ var objCreateSerie = {
 		"sp": "1991-03-27",
 		"sm": "1959-12-15",
 		"hia": "1958-05-13",
-		"sf": "2005-03-27"
+		"sf": "2005-03-27",
+		"eq_leg": "001indf",
+		"eq_leg_parc": "001indf"
 	},
 	serieOkDuplicate: {
 		"nome": "Serie Teste",
@@ -583,13 +585,16 @@ var objCreateSerie = {
 var objUpdParcialSerie = {
 	serieOk: {
 		"nome": "Serie Teste Upd Parcial",
-		"sinalizador": 2,
-		"status": 3,
-		"dia": 4,
+		"sinalizador": 0,
+		"status": 0,
+		"dia": 0,
 		"sp": "null",
 		"sm": "null",
 		"hia": "null",
-		"sf": "null"
+		"sf": "null",
+		"total_temp": 0,
+		"total_ep": 0,
+		"eq_leg_parc": "002sp"
 	},
 	serieOkDuplicate: {
 		"nome": "Serie Teste Upd Parcial",

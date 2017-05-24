@@ -8,8 +8,8 @@ var errorMessagesValidatorSerie = {
 	'hia': 'A data do hiatus precisa ser null ou uma data válida',
 	'sf': 'A data da season/series finale precisa ser null ou uma data válida',
 	'dia': 'O dia precisa ser um número entre 0 e 7',
-	'eq_leg': 'A equipe de legenda precisa conter o id de uma cadastrada',
-	// eq_leg_parc
+	'eq_leg': 'A equipe de legenda precisa conter o id de uma cadastrada ou o de indefinido',
+	'eq_leg_parc': 'A equipe de legenda parceira precisa conter o id de uma cadastrada, de indefinido ou de sem parceria',
 	'assistido': 'Assistido precisa ser um valor booleano',
 	'situacao': '',
 	'situacao_temp': '',
