@@ -370,8 +370,8 @@ function updParcialSerie(req, res) { // patch
 					if (serie) {
 
 						serie.nome = req.body.nome || serie.nome
-						serie.sinalizador = req.body.sinalizador || serie.sinalizador
-						serie.status = req.body.status || serie.status
+						serie.sinalizador = req.body.sinalizador // o sinalizador sempre estara no body
+						serie.status = req.body.status // o status sempre estara no body
 						// sp
 						if (req.body.sp == 'null') {
 							serie.sp = null
@@ -396,7 +396,7 @@ function updParcialSerie(req, res) { // patch
 						} else {
 							serie.sf = req.body.sf || serie.sf
 						}
-						serie.dia = req.body.dia || serie.dia
+						serie.dia = req.body.dia // o dia sempre estara no body
 						serie.eq_leg = req.body.eq_leg || serie.eq_leg
 						serie.eq_leg_parc = req.body.eq_leg_parc || serie.eq_leg_parc
 						serie.assistido = req.body.assistido || serie.assistido
@@ -405,8 +405,8 @@ function updParcialSerie(req, res) { // patch
 						serie.emissora = req.body.emissora || serie.emissora
 						serie.dt_inicio = req.body.dt_inicio || serie.dt_inicio
 						serie.dt_fim = req.body.dt_fim || serie.dt_fim
-						serie.total_temp = req.body.total_temp || serie.total_temp
-						serie.total_ep = req.body.total_ep || serie.total_ep
+						serie.total_temp = req.body.total_temp // o total_temp sempre estara no body
+						serie.total_ep = req.body.total_ep // o total_ep sempre estara no body
 						serie.descN = req.body.descN || serie.descN
 						serie.qtdeN = req.body.qtdeN || serie.qtdeN
 						serie.gravN = req.body.gravN || serie.gravN
@@ -451,7 +451,7 @@ function updParcialSerie(req, res) { // patch
 				})		
  		}
 	})
-	
+
 }
 
 /**
