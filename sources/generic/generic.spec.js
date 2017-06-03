@@ -88,7 +88,8 @@ var objCreateSerie = {
 		"hia": "1958-05-13",
 		"sf": "2005-03-27",
 		"eq_leg": "001indf",
-		"eq_leg_parc": "001indf"
+		"eq_leg_parc": "001indf",
+		"situacao_temp": 2
 	},
 	serieOkDuplicate: {
 		"nome": "Serie Teste",
@@ -594,7 +595,8 @@ var objUpdParcialSerie = {
 		"sf": "null",
 		"total_temp": 0,
 		"total_ep": 0,
-		"eq_leg_parc": "002sp"
+		"eq_leg_parc": "002sp",
+		"situacao_temp": "null"
 	},
 	serieOkDuplicate: {
 		"nome": "Serie Teste Upd Parcial",

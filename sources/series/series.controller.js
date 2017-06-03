@@ -401,7 +401,12 @@ function updParcialSerie(req, res) { // patch
 						serie.eq_leg_parc = req.body.eq_leg_parc || serie.eq_leg_parc
 						serie.assistido = req.body.assistido || serie.assistido
 						serie.situacao = req.body.situacao || serie.situacao
-						serie.situacao_temp = req.body.situacao_temp || serie.situacao_temp
+						// situacao_temp
+						if (req.body.situacao_temp == 'null') {
+							serie.situacao_temp = null
+						} else {
+							serie.situacao_temp = req.body.situacao_temp || serie.situacao_temp
+						}
 						serie.emissora = req.body.emissora || serie.emissora
 						serie.dt_inicio = req.body.dt_inicio || serie.dt_inicio
 						serie.dt_fim = req.body.dt_fim || serie.dt_fim

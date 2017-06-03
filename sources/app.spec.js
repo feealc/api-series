@@ -1233,6 +1233,7 @@ describe("Series", function() {
 				// validar algumas informacoes especificas de quando a serie foi criada
 				expect(res.body.eq_leg).to.be.equal(oC_S.serieOk.eq_leg)
 				expect(res.body.eq_leg_parc).to.be.equal(oC_S.serieOk.eq_leg_parc)
+				expect(res.body.situacao_temp).to.be.equal(oC_S.serieOk.situacao_temp)
 				done()
 			})
 		})
@@ -1280,6 +1281,7 @@ describe("Series", function() {
 				expect(res.body.total_temp).to.be.equal(oUP_S.serieOk.total_temp)
 				expect(res.body.total_ep).to.be.equal(oUP_S.serieOk.total_ep)
 				expect(res.body.eq_leg_parc).to.be.equal(oUP_S.serieOk.eq_leg_parc)
+				expect(res.body.situacao_temp).to.be.null
 				done()
 			})
 		})
