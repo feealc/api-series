@@ -417,9 +417,26 @@ function updParcialSerie(req, res) { // patch
 						serie.gravN = req.body.gravN || serie.gravN
 						// serie.dt_criacao
 						serie.dt_ult_at = gen.getCurrentDate()
-						serie.dd_temp = req.body.dd_temp || serie.dd_temp
-						serie.dd_ep = req.body.dd_ep || serie.dd_ep
-						serie.dd_dia = req.body.dd_dia || serie.dd_dia
+						// dd_temp
+						if (req.body.dd_temp == "null") {
+							serie.dd_temp = null
+						} else {
+							serie.dd_temp = req.body.dd_temp || serie.dd_temp
+						}
+						// dd_ep
+						if (req.body.dd_ep == "null") {
+							serie.dd_ep = null
+						} else {
+							serie.dd_ep = req.body.dd_ep || serie.dd_ep
+						}
+						// dd_dia
+						if (req.body.dd_dia == "") {
+							serie.dd_dia = ""
+						} else if (req.body.dd_dia == "null") {
+							serie.dd_dia = null
+						} else {
+							serie.dd_dia = req.body.dd_dia || serie.dd_dia
+						}
 						serie.imdb_id = req.body.imdb_id || serie.imdb_id
 
 						serie
@@ -449,7 +466,8 @@ function updParcialSerie(req, res) { // patch
 					}
 
 				})
-				.catch(() => {
+				.catch((err) => {
+					console.log(err)
 					return res
 						.status(500)
 						.json({message: mR_S.s500})

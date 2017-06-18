@@ -1234,6 +1234,9 @@ describe("Series", function() {
 				expect(res.body.eq_leg).to.be.equal(oC_S.serieOk.eq_leg)
 				expect(res.body.eq_leg_parc).to.be.equal(oC_S.serieOk.eq_leg_parc)
 				expect(res.body.situacao_temp).to.be.equal(oC_S.serieOk.situacao_temp)
+				expect(res.body.dd_temp).to.be.equal(oC_S.serieOk.dd_temp)
+				expect(res.body.dd_ep).to.be.equal(oC_S.serieOk.dd_ep)
+				expect(res.body.dd_dia).to.be.equal(oC_S.serieOk.dd_dia)
 				done()
 			})
 		})
@@ -1282,6 +1285,9 @@ describe("Series", function() {
 				expect(res.body.total_ep).to.be.equal(oUP_S.serieOk.total_ep)
 				expect(res.body.eq_leg_parc).to.be.equal(oUP_S.serieOk.eq_leg_parc)
 				expect(res.body.situacao_temp).to.be.null
+				expect(res.body.dd_temp).to.be.null
+				expect(res.body.dd_ep).to.be.null
+				expect(res.body.dd_dia).to.be.equal(oUP_S.serieOk.dd_dia)
 				done()
 			})
 		})

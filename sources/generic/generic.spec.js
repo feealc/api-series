@@ -89,7 +89,10 @@ var objCreateSerie = {
 		"sf": "2005-03-27",
 		"eq_leg": "001indf",
 		"eq_leg_parc": "001indf",
-		"situacao_temp": 2
+		"situacao_temp": 2,
+		"dd_temp": 2,
+		"dd_ep": "7",
+		"dd_dia": "ok"
 	},
 	serieOkDuplicate: {
 		"nome": "Serie Teste",
@@ -583,7 +586,7 @@ var objCreateSerie = {
 }
 
 // Update Parcial
-var objUpdParcialSerie = {
+var objUpdParcialSerie = { // patch
 	serieOk: {
 		"nome": "Serie Teste Upd Parcial",
 		"sinalizador": 0,
@@ -596,7 +599,10 @@ var objUpdParcialSerie = {
 		"total_temp": 0,
 		"total_ep": 0,
 		"eq_leg_parc": "002sp",
-		"situacao_temp": "null"
+		"situacao_temp": "null",
+		"dd_temp": "null",
+		"dd_ep": "null",
+		"dd_dia": ""
 	},
 	serieOkDuplicate: {
 		"nome": "Serie Teste Upd Parcial",
@@ -1090,7 +1096,7 @@ var objUpdParcialSerie = {
 }
 
 // Update Full
-var objUpdFullSerie = {
+var objUpdFullSerie = { // put
 	serieOk: {
 		"nome": "Serie Teste Upd Full",
 		"sinalizador": 2,
