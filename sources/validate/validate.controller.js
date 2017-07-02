@@ -6,6 +6,7 @@ var mR = generic.msgResponse
 var eMV_S = generic.errorMessagesValidatorSerie
 var eMV_E = generic.errorMessagesValidatorEmissora
 var eMV_EL = generic.errorMessagesValidatorEquipeLegenda
+// var eMV_DD = generic.errorMessagesValidatorDD
 
 //
 
@@ -61,6 +62,21 @@ function runExpressValidatorEquipeLegenda(req) {
 	req.checkBody('nome', eMV_EL.nome).notEmpty()
 
 }
+
+// function runExpressValidatorDD(req) {
+
+//     // console.log('runExpressValidatorDD inicio')
+//     // console.log(req.body)
+//     // console.log('runExpressValidatorDD fim')
+
+//     // req.checkBody('id', eMV_DD.id).isID(req.body[i].id)
+//     // req.checkBody('dd_temp', eMV_DD.dd_temp).isDDTemp()
+//     // req.checkBody('dd_ep', eMV_DD.dd_ep).isDDEp()
+//     // req.checkBody('dd_dia', eMV_DD.dd_dia).isDDDia()
+
+// }
+
+//
 
 var customValidators = {
     //
@@ -235,79 +251,51 @@ var customValidators = {
     		return false
     	}
     	return true
+    },
+    //
+    isID: function(v1, value) {
+        console.log(`isID - v1 [${v1}] - value [${value}]`)
+        return validId.isValid(value)
+    },
+    //
+    isDDTemp: function(value) {
+        console.log('isDDTemp')
+        if (value == 'null') {
+            return true
+        }
+        value = `${value}` // transformar para string
+        if (!(!isNaN(parseFloat(value)) && isFinite(value))) { // verificar se eh um numero
+            return false
+        }
+    },
+    //
+    isDDEp: function(value) {
+        console.log('isDDEp')
+        if (value === undefined) {
+            return false
+        }
+        // if (value == 'null') {
+        //     return true
+        // }
+        // if (value == '') {
+        //     return true
+        // }
+        return true
+    },
+    //
+    isDDDia: function(value) {
+        console.log('isDDDia')
+        if (value === undefined) {
+            return false
+        }
+        // if (value == 'null') {
+        //     return true
+        // }
+        // if (value == '') {
+        //     return true
+        // }
+        return true
     }
-    //
-    // isPaisISO3166: function(value) {
-    //     if (value.search(/[^A-Za-z]/) >= 0) { // verificar se tem algum numero, espaco ou caracter especial - aceita somente letras
-    //         return false
-    //     }
-    //     if (value.length != 3) { // verificar se tem 3 posicoes de tamanho
-    //         return false
-    //     }
-    // 	return true
-    // },
-    //
-    // isUsername: function(value) {
-    //     if (value === undefined) { // verificar se esta presente
-    //         return false
-    //     }
-    //     if (value == '') { // verificar se nao esta vazio
-    //         return false
-    //     }
-    //     if (value.search(/\s/) >= 0) { // verificar se tem espaco
-    //         return false
-    //     }
-    //     if (value.search(/[^A-Za-z0-9]/) >= 0) { // verificar se tem caracter especial
-    //         return false
-    //     }
-    //     return true
-    // },
-    //
-    // isPassword: function(value) {
-    //     if (value === undefined) { // verificar se esta presente
-    //         return false
-    //     }
-    //     if (value == '') { // verificar se nao esta vazia
-    //         return false
-    //     }
-    //     if (value.search(/\s/) >= 0) { // verificar se tem espaco
-    //         return false
-    //     }
-    //     if (value.search(/[0-9]/) < 0) { // verificar se nao tem numero
-    //         return false
-    //     }
-    //     if (value.search(/[a-z]/) < 0) { // verificar se nao tem letra minuscula
-    //         return false
-    //     }
-    //     if (value.search(/[A-Z]/) < 0) { // verificar se nao tem letra maiuscula
-    //         return false
-    //     }
-    //     if (value.search(/[^A-Za-z0-9]/) < 0) { // verificar se nao tem caracter especial
-    //         return false
-    //     }
-    //     return true
-    // },
-    // isExpiresIn: function(value) {
-    //     if (value == '') { // verificar se nao esta vazia
-    //         return false
-    //     }
-    //     if (value.search(/\s/) >= 0) { // verificar se tem espaco
-    //         return false
-    //     }
-    //     if (value.search(/[\.|\,]/) >= 0) { // verificar se tem ponto ou virgula
-    //         return false
-    //     }
-    //     var len = value.length
-    //     var qtde = value.substr(0, len - 1)
-    //     if (!(!isNaN(parseFloat(qtde)) && isFinite(qtde))) { // verificar se eh um numero
-    //         return false
-    //     }
-    //     var tipo = value.substr(len - 1, len)
-    //     if (tipo != 's' && tipo != 'm' && tipo != 'h') {
-    //         return false
-    //     }
-    //     return true
-    // }
 }
 
 module.exports = {
@@ -316,6 +304,7 @@ module.exports = {
 	runExpressValidatorSerie,
 	runExpressValidatorEmissora,
 	runExpressValidatorEquipeLegenda,
+    // runExpressValidatorDD,
 	//
 	customValidators
 }
