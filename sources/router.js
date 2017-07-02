@@ -2,6 +2,7 @@ var express = require('express')
 var series = require('./series/series.controller.js')
 var emissoras = require('./emissoras/emissoras.controller.js')
 var equipelegendas = require('./equipelegendas/equipelegendas.controller.js')
+var dd = require('./dd/dd.controller.js')
 var validate = require('./validate/validate.controller.js')
 
 //
@@ -26,6 +27,10 @@ router
 	.route('/equipelegendas')
 	.get(equipelegendas.getAllEquipeLegendas)
 	.post(equipelegendas.createEquipeLegenda)
+
+router
+	.route('/dd')
+	.patch(dd.updDD)
 
 //
 
