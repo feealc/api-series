@@ -4,7 +4,7 @@ var expressValidatorParam = {
 	'msg': 'msg',
 	'value': 'value',
 	'array2': ['param', 'msg'],
-	'array3': ['param','msg','value']
+	'array3': ['param', 'msg','value']
 }
 
 // ================================================================================================
@@ -1594,6 +1594,73 @@ var objUpdFullSerie = { // put
 	}
 }
 
+// Download Diario
+var objUpdDDSerie = { // patch
+	serieOk: {
+		"id": "",
+		"nome": objUpdFullSerie.serieOk.nome,
+		"dd_temp": 8,
+		"dd_ep": "22",
+		"dd_dia": "ok"
+	},
+	serieOkNull: {
+		"id": "",
+		"nome": objUpdFullSerie.serieOk.nome,
+		"dd_temp": "null",
+		"dd_ep": "null",
+		"dd_dia": "null"
+	},
+	serieNomeAusente: {
+		"id": "",
+		// "nome": objUpdFullSerie.serieOk.nome,
+		"dd_temp": 8,
+		"dd_ep": "22",
+		"dd_dia": "ok"
+	},
+	serieNomeDiferente: {
+		"id": "",
+		"nome": "Serie Teste Upd DD",
+		"dd_temp": 8,
+		"dd_ep": "22",
+		"dd_dia": "ok"
+	},
+	serieDDTempAusente: {
+		"id": "",
+		"nome": objUpdFullSerie.serieOk.nome,
+		// "dd_temp": 8,
+		"dd_ep": "22",
+		"dd_dia": "ok"
+	},
+	serieDDTempInvalido: {
+		"id": "",
+		"nome": objUpdFullSerie.serieOk.nome,
+		"dd_temp": "f",
+		"dd_ep": "22",
+		"dd_dia": "ok"
+	},
+	serieDDEpAusente: {
+		"id": "",
+		"nome": objUpdFullSerie.serieOk.nome,
+		"dd_temp": 8,
+		// "dd_ep": "22",
+		"dd_dia": "ok"
+	},
+	serieDDEpVazio: {
+		"id": "",
+		"nome": objUpdFullSerie.serieOk.nome,
+		"dd_temp": 8,
+		"dd_ep": "",
+		"dd_dia": "ok"
+	},
+	serieDDDiaAusente: {
+		"id": "",
+		"nome": objUpdFullSerie.serieOk.nome,
+		"dd_temp": 8,
+		"dd_ep": "22"
+		// "dd_dia": "ok"
+	}
+}
+
 // ================================================================================================
 // EMISSORAS
 // ================================================================================================
@@ -1715,6 +1782,7 @@ module.exports = {
 	objCreateSerie,
 	objUpdFullSerie,
 	objUpdParcialSerie,
+	objUpdDDSerie,
 	// Emissora
 	objModelEmissora,
 	objCreateEmissora,

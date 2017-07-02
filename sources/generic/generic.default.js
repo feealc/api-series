@@ -35,6 +35,16 @@ var errorMessagesValidatorEquipeLegenda = {
 	'nome': 'O nome é obrigatório'
 }
 
+var errorMessagesValidatorDD = {
+	'id': 'O ID é obrigatório e precisa ser válido',
+	'nome': 'O nome é obrigatório',
+	'dd_temp': 'DD Temp precisa ser um número ou null',
+	'dd_ep': 'DD Ep é obrigatório',
+	'dd_dia': 'DD Dia é obrigatório'
+}
+
+//
+
 var msgResponse = {
 	'id400': 'IDInvalido'
 }
@@ -89,13 +99,27 @@ var msgResponseEquipeLegenda = {
 	//
 }
 
+var msgResponseDD = {
+	'dd200': 'DDAtualizado',
+	//
+	'dd400notarray': 'NaoEhArray',
+	'dd400nomedif': 'NomeSerieDiferente',
+	'dd404': 'SerieNaoEncontrada',
+	//
+	'dd500salvarserie': 'ErroSalvarSerieDD',
+	'dd500recserie': 'ErroRecuperarSerieDD',
+	//
+}
+
 module.exports = {
 	errorMessagesValidatorSerie,
 	errorMessagesValidatorEmissora,
 	errorMessagesValidatorEquipeLegenda,
+	errorMessagesValidatorDD,
 	//
 	msgResponse,
 	msgResponseSerie,
 	msgResponseEmissora,
-	msgResponseEquipeLegenda
+	msgResponseEquipeLegenda,
+	msgResponseDD
 }

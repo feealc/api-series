@@ -1,12 +1,24 @@
 module.exports = {
 	getCurrentDate,
+	getFormattedDate
 }
 
 function getCurrentDate() {
-  
-  // const currentDate = new Date().toISOString().slice(0,10).replace(/-/g, '')
-  const currentDate = new Date().toISOString().slice(0,10)
 
-  return currentDate
+	var d = new Date()
+
+	d = d.getFullYear() + "-" + ('0' + (d.getMonth() + 1)).slice(-2) + "-" + ('0' + d.getDate()).slice(-2)
+
+	return d
+
+}
+
+function getFormattedDate(){
+    
+    var d = new Date()
+
+    d = d.getFullYear() + "-" + ('0' + (d.getMonth() + 1)).slice(-2) + "-" + ('0' + d.getDate()).slice(-2) + " " + ('0' + d.getHours()).slice(-2) + ":" + ('0' + d.getMinutes()).slice(-2) + ":" + ('0' + d.getSeconds()).slice(-2)
+
+    return d
 
 }
