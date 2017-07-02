@@ -14,6 +14,7 @@ const eVP = genSpec.expressValidatorParam
 const oC_S = genSpec.objCreateSerie
 const oUF_S = genSpec.objUpdFullSerie
 const oUP_S = genSpec.objUpdParcialSerie
+const oUP_DD = genSpec.objUpdDDSerie
 const oC_E = genSpec.objCreateEmissora
 const oU_E = genSpec.objUpdEmissora
 const oC_EL = genSpec.objCreateEquipeLegenda
@@ -30,11 +31,13 @@ const genDefault = require('./generic/generic.default.js')
 const eMV_S = genDefault.errorMessagesValidatorSerie
 const eMV_E = genDefault.errorMessagesValidatorEmissora
 const eMV_EL = genDefault.errorMessagesValidatorEquipeLegenda
+const eMV_DD = genDefault.errorMessagesValidatorDD
 // --
 const mR = genDefault.msgResponse
 const mR_S = genDefault.msgResponseSerie
 const mR_E = genDefault.msgResponseEmissora
 const mR_EL = genDefault.msgResponseEquipeLegenda
+const mR_DD = genDefault.msgResponseDD
 
 //
 
@@ -43,6 +46,7 @@ const urlBase = `http://localhost:${port}/api`
 const urlSeries = '/series'
 const urlEmissoras = '/emissoras'
 const urlEquipeLegendas = '/equipelegendas'
+const urlDD = '/dd'
 var idSerieTeste = "" // Com todas as informacoes
 var urlSerieTeste = "" // url para fazer o update da serie criada
 var idEmissoraTeste = ""
@@ -56,7 +60,7 @@ chai.use(chaiHttp)
 
 //
 
-describe("Documentacao APIDOC", function() {
+describe("Documentação APIDOC", function() {
 	it('Header == html', function(done) {
 		chai.request(urlBase)
 		.get('/doc')
@@ -67,9 +71,9 @@ describe("Documentacao APIDOC", function() {
 	})
 })
 //
-describe("Series", function() {
+describe("Séries", function() {
 	//
-	describe("Criar uma serie - createSerie", function() {
+	describe("Criar uma série - createSerie", function() {
 		it('Informacoes ok - campos obrigatorios', function(done) {
 			chai.request(urlBase)
 			.post(urlSeries)
@@ -1171,7 +1175,7 @@ describe("Series", function() {
 		// imdb id
 	})
 	//
-	describe("Recuperar todas as series - getAllSeries", function() {
+	describe("Recuperar todas as séries - getAllSeries", function() {
 		it('Header == json', function(done) {
 			chai.request(urlBase)
 			.get(urlSeries)
@@ -1242,7 +1246,7 @@ describe("Series", function() {
 		})
 	})
 	//
-	describe("Alterar uma serie - updParcialSerie", function() {
+	describe("Alterar uma série - updParcialSerie", function() {
 		it('Série não encontrada', function(done) {
 			var idSerieTeste404 = idSerieTeste.replace(/0/g, 9).replace(/1/g, 8).replace(/2/g, 7).replace(/3/g, 6).replace(/4/g, 5)
 			chai.request(urlBase)
@@ -2379,7 +2383,7 @@ describe("Series", function() {
 		// imdb id
 	})
 	//
-	describe("Alterar uma serie - updFullSerie", function() {
+	describe("Alterar uma série - updFullSerie", function() {
 		it('Série não encontrada', function(done) {
 			var idSerieTeste404 = idSerieTeste.replace(/0/g, 9).replace(/1/g, 8).replace(/2/g, 7).replace(/3/g, 6).replace(/4/g, 5)
 			chai.request(urlBase)
@@ -3491,6 +3495,194 @@ describe("Series", function() {
 		// imdb id
 	})
 	//
+})
+//
+describe("Download Diário", function() {
+	describe("Atualizar as séries - updDD", function() {
+		it('Informacoes ok', function(done) {
+			oUP_DD.serieOk.id = idSerieTeste // atualizando o id
+			chai.request(urlBase)
+			.patch(urlDD)
+			// .send(oUP_DD.serieOk)
+			// .send(arr)
+			.send([oUP_DD.serieOk])
+			.end(function(err, res) {
+				expect(res).to.have.status(200)
+				expect(res.body).to.have.all.keys(['message'])
+				expect(res.body.message).to.have.string(mR_DD.dd200)
+				done()
+			})
+		})
+		it('Série atualizada', function(done) {
+			chai.request(urlBase)
+			.get(urlSerieTeste)
+			.end(function(err, res) {
+				expect(res).to.have.status(200)
+				expect(res.body).to.have.all.keys(oM_S.arrayKeys)
+				expect(res.body).to.not.have.all.keys([oM_S.param.v])
+				// validar os campos do DD
+				// console.log(res.body)
+				expect(res.body.dd_temp).to.be.equal(oUP_DD.serieOk.dd_temp)
+				expect(res.body.dd_ep).to.be.equal(oUP_DD.serieOk.dd_ep)
+				expect(res.body.dd_dia).to.be.equal(oUP_DD.serieOk.dd_dia)
+				done()
+			})
+		})
+		it('Informacoes ok - null', function(done) {
+			oUP_DD.serieOkNull.id = idSerieTeste // atualizando o id
+			chai.request(urlBase)
+			.patch(urlDD)
+			.send([oUP_DD.serieOkNull])
+			.end(function(err, res) {
+				expect(res).to.have.status(200)
+				expect(res.body).to.have.all.keys(['message'])
+				expect(res.body.message).to.have.string(mR_DD.dd200)
+				done()
+			})
+		})
+		it('Série atualizada', function(done) {
+			chai.request(urlBase)
+			.get(urlSerieTeste)
+			.end(function(err, res) {
+				expect(res).to.have.status(200)
+				expect(res.body).to.have.all.keys(oM_S.arrayKeys)
+				expect(res.body).to.not.have.all.keys([oM_S.param.v])
+				// validar os campos do DD
+				// console.log(res.body)
+				expect(res.body.dd_temp).to.be.null
+				expect(res.body.dd_ep).to.be.null
+				expect(res.body.dd_dia).to.be.null
+				done()
+			})
+		})
+		it('Informacoes nok - nome ausente', function(done) {
+			oUP_DD.serieNomeAusente.id = idSerieTeste // atualizando o id
+			chai.request(urlBase)
+			.patch(urlDD)
+			.send([oUP_DD.serieNomeAusente])
+			.end(function(err, res) {
+				expect(res).to.have.status(400)
+				expect(res.body).to.be.instanceof(Array)
+				var ret = res.body.shift()
+				expect(ret).to.have.all.keys(eVP.array2)
+				expect(ret.param).to.have.string(oM_S.param.nome)
+				expect(ret.msg).to.have.string(eMV_DD.nome)
+				done()
+			})
+		})
+		it('Informacoes nok - nome diferente', function(done) {
+			oUP_DD.serieNomeDiferente.id = idSerieTeste // atualizando o id
+			chai.request(urlBase)
+			.patch(urlDD)
+			.send([oUP_DD.serieNomeDiferente])
+			.end(function(err, res) {
+				expect(res).to.have.status(400)
+				expect(res.body).to.have.all.keys(['message'])
+				expect(res.body.message).to.have.string(mR_DD.dd400nomedif)
+				done()
+			})
+		})
+		it('Informacoes nok - dd_temp ausente', function(done) {
+			oUP_DD.serieDDTempAusente.id = idSerieTeste // atualizando o id
+			chai.request(urlBase)
+			.patch(urlDD)
+			.send([oUP_DD.serieDDTempAusente])
+			.end(function(err, res) {
+				expect(res).to.have.status(400)
+				expect(res.body).to.be.instanceof(Array)
+				// pegando a primeira posicao do array
+				var ret = res.body.shift()
+				expect(ret).to.have.all.keys(oM_S.param.nome)
+				expect(ret.nome).to.have.string(oUP_DD.serieDDTempAusente.nome)
+				// pegando a segunda posicao do array
+				var ret2 = res.body.shift()
+				expect(ret2).to.have.all.keys(eVP.array2)
+				expect(ret2.param).to.have.string(oM_S.param.dd_temp)
+				expect(ret2.msg).to.have.string(eMV_DD.dd_temp)
+				done()
+			})
+		})
+		it('Informacoes nok - dd_temp invalido', function(done) {
+			oUP_DD.serieDDTempInvalido.id = idSerieTeste // atualizando o id
+			chai.request(urlBase)
+			.patch(urlDD)
+			.send([oUP_DD.serieDDTempInvalido])
+			.end(function(err, res) {
+				expect(res).to.have.status(400)
+				expect(res.body).to.be.instanceof(Array)
+				// pegando a primeira posicao do array
+				var ret = res.body.shift()
+				expect(ret).to.have.all.keys(oM_S.param.nome)
+				expect(ret.nome).to.have.string(oUP_DD.serieDDTempInvalido.nome)
+				// pegando a segunda posicao do array
+				var ret2 = res.body.shift()
+				expect(ret2).to.have.all.keys(eVP.array3)
+				expect(ret2.param).to.have.string(oM_S.param.dd_temp)
+				expect(ret2.msg).to.have.string(eMV_DD.dd_temp)
+				expect(ret2.value).to.be.equal(oUP_DD.serieDDTempInvalido.dd_temp)
+				done()
+			})
+		})
+		it('Informacoes nok - dd_ep ausente', function(done) {
+			oUP_DD.serieDDEpAusente.id = idSerieTeste // atualizando o id
+			chai.request(urlBase)
+			.patch(urlDD)
+			.send([oUP_DD.serieDDEpAusente])
+			.end(function(err, res) {
+				expect(res).to.have.status(400)
+				expect(res.body).to.be.instanceof(Array)
+				// pegando a primeira posicao do array
+				var ret = res.body.shift()
+				expect(ret).to.have.all.keys(oM_S.param.nome)
+				expect(ret.nome).to.have.string(oUP_DD.serieDDEpAusente.nome)
+				// pegando a segunda posicao do array
+				var ret2 = res.body.shift()
+				expect(ret2).to.have.all.keys(eVP.array2)
+				expect(ret2.param).to.have.string(oM_S.param.dd_ep)
+				done()
+			})
+		})
+		it('Informacoes nok - dd_ep vazio', function(done) {
+			oUP_DD.serieDDEpVazio.id = idSerieTeste // atualizando o id
+			chai.request(urlBase)
+			.patch(urlDD)
+			.send([oUP_DD.serieDDEpVazio])
+			.end(function(err, res) {
+				expect(res).to.have.status(400)
+				expect(res.body).to.be.instanceof(Array)
+				// pegando a primeira posicao do array
+				var ret = res.body.shift()
+				expect(ret).to.have.all.keys(oM_S.param.nome)
+				expect(ret.nome).to.have.string(oUP_DD.serieDDEpVazio.nome)
+				// pegando a segunda posicao do array
+				var ret2 = res.body.shift()
+				expect(ret2).to.have.all.keys(eVP.array3)
+				expect(ret2.param).to.have.string(oM_S.param.dd_ep)
+				expect(ret2.msg).to.have.string(eMV_DD.dd_ep)
+				expect(ret2.value).to.be.equal(oUP_DD.serieDDEpVazio.dd_ep)
+				done()
+			})
+		})
+		it('Informacoes nok - dd_dia ausente', function(done) {
+			oUP_DD.serieDDDiaAusente.id = idSerieTeste // atualizando o id
+			chai.request(urlBase)
+			.patch(urlDD)
+			.send([oUP_DD.serieDDDiaAusente])
+			.end(function(err, res) {
+				expect(res).to.have.status(400)
+				expect(res.body).to.be.instanceof(Array)
+				// pegando a primeira posicao do array
+				var ret = res.body.shift()
+				expect(ret).to.have.all.keys(oM_S.param.nome)
+				expect(ret.nome).to.have.string(oUP_DD.serieDDDiaAusente.nome)
+				// pegando a segunda posicao do array
+				var ret2 = res.body.shift()
+				expect(ret2).to.have.all.keys(eVP.array2)
+				expect(ret2.param).to.have.string(oM_S.param.dd_dia)
+				done()
+			})
+		})
+	})
 })
 //
 describe("Emissoras", function() {
