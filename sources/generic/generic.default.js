@@ -102,6 +102,7 @@ var msgResponseEquipeLegenda = {
 var msgResponseDD = {
 	'dd200': 'DDAtualizado',
 	//
+	'dd400keynaoencontrada': 'KeySeriesNaoEncontrada',
 	'dd400notarray': 'NaoEhArray',
 	'dd400nomedif': 'NomeSerieDiferente',
 	'dd404': 'SerieNaoEncontrada',

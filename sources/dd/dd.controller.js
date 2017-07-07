@@ -43,25 +43,36 @@ module.exports = {
 function updDD(req, res) { // patch
 
 	log.log_updDD('========== Início')
+	// log.debug_updDD('========== Início')
 
-	if (!Array.isArray(req.body)) {
+	if (!req.body.series) {
+		
+		log.log_updDD('ERRO - Body da requisição não tem a key "series"')
+		log.log_updDD('========== Fim')
 
-		log.log_updDD('ERRO - Body da requisição não é um array')
+		return res
+			.status(400)
+			.json({message: mR_DD.dd400keynaoencontrada})
+
+	}
+
+	if (!Array.isArray(req.body.series)) {
+
+		log.log_updDD('ERRO - O conteúdo da key "series" não é um array')
+		log.log_updDD('========== Fim')
+
 		return res
 			.status(400)
 			.json({message: mR_DD.dd400notarray})
 
 	}
 
-	// console.log('body')
-	// console.log(req.body)
-	// console.debug(req.body)
-	// console.log("my object: %o", req.body)
+	var arr = req.body.series
 
 	// fazendo o primeiro loop no body para validar as informacoes
-	for (var i = 0, len = req.body.length; i < len; i++) {
+	for (var i = 0, len = arr.length; i < len; i++) {
 
-		const sre = req.body[i]
+		const sre = arr[i]
 		log.log_updDD(`Validando série: ${sre.nome}`)
 
 		// ==================
@@ -74,16 +85,15 @@ function updDD(req, res) { // patch
 		var dd_ep_obj
 		var dd_dia_obj
 
-		// console.log('====================================')
-		// console.log(`comecar a validacao - i [${i}]`)
-
 		// Nome
-		// console.log()
-		// console.log(`nome [${sre.nome}]`)
+		log.debug_updDD(`Nome: ${sre.nome}`)
 		if (sre.nome) {
-			// console.log('nome presente')
+
+			log.debug_updDD('Nome presente')
+
 		} else {
-			// console.log('nome undefined')
+
+			log.debug_updDD('Nome ausente')
 			valid_failed = true
 			nome_obj = {
 				param: 'nome',
@@ -92,12 +102,13 @@ function updDD(req, res) { // patch
 		}
 
 		// ID
-		// console.log()
-		// console.log(`id [${sre.id}]`)
+		log.debug_updDD(`ID: ${sre.id}`)
 		if (sre.id) {
-			// console.log('id presente')
+			
+			log.debug_updDD('ID presente')
 			if (!validId.isValid(sre.id)) {
-				// console.log('id invalido')
+				
+				log.debug_updDD('ID inválido')
 				valid_failed = true
 				id_obj = {
 					param: 'id',
@@ -105,10 +116,13 @@ function updDD(req, res) { // patch
 					value: sre.id
 				}
 			} else {
-				// console.log('id valido')
+
+				log.debug_updDD('ID válido')
+
 			}
 		} else { // undefined
-			// console.log('id undefined')
+			
+			log.debug_updDD('ID ausente')
 			valid_failed = true
 			id_obj = {
 				param: 'id',
@@ -117,32 +131,43 @@ function updDD(req, res) { // patch
 		}
 
 		// dd_temp
-		// console.log()
-		// console.log(`dd_temp [${sre.dd_temp}]`)
+		log.debug_updDD(`DD Temp: ${sre.dd_temp}`)
 		if (sre.dd_temp) {
-			// console.log('dd_temp presente')
+			
+			log.debug_updDD('DD Temp presente')
 			if (sre.dd_temp != 'null') {
+
 				if (!(!isNaN(parseFloat(sre.dd_temp)) && isFinite(sre.dd_temp))) {
-					// console.log('dd_temp invalido')
+
+					log.debug_updDD('DD Temp inválido')
 					valid_failed = true
 					dd_temp_obj = {
 						param: 'dd_temp',
 						msg: eMV_DD.dd_temp,
 						value: sre.dd_temp
 					}
+
 				} else {
-					// console.log('dd_temp numerico')
+
+					log.debug_updDD('DD Temp numérico')
+
 				}
 			} else {
-				// console.log('dd_temp = null')
+
+				log.debug_updDD('DD Temp null')
+
 			}
+
 		} else {
 			// console.log('dd_temp undefined')
+
+			log.debug_updDD('DD Temp ausente')
 			valid_failed = true
 			dd_temp_obj = {
 				param: 'dd_temp',
 				msg: eMV_DD.dd_temp
-			}	
+			}
+			
 		}
 
 		// dd_ep
@@ -232,6 +257,7 @@ function updDD(req, res) { // patch
 				arr_erros.push(dd_dia_obj)
 			}
 
+			log.log_updDD('========== Fim')
 			return res
 				.status(400)
 				.json(arr_erros)
@@ -256,14 +282,14 @@ function updDD(req, res) { // patch
 
 	var aux = 0
 
-	for (var i = 0, len = req.body.length; i < len; i++) {
+	for (var i = 0, len = arr.length; i < len; i++) {
 
 		// console.log(`i [${i}]`)
 		// console.log(req.body[i].id)
 		// console.log(req.body[i].nome)
 		// console.log(req.body[i].eq_leg)
 
-		const sre = req.body[i]
+		const sre = arr[i]
 		log.log_updDD(`Atualizando série: ${sre.nome}`)
 
 		// ==================
@@ -315,7 +341,7 @@ function updDD(req, res) { // patch
 							// console.log(`incrementando aux [${aux}]`)
 							// console.log(`salvando serie [${sre.nome}] i [${i}] length [${req.body.length}] aux [${aux}]`)
 							log.log_updDD('Série salva')
-							if (aux == req.body.length) { // quando salvar a ultima serie do body com sucesso, envia a response
+							if (aux == arr.length) { // quando salvar a ultima serie do body com sucesso, envia a response
 								// console.log('enviando a response')
 								log.log_updDD('========== Fim')
 								return res
@@ -353,4 +379,3 @@ function updDD(req, res) { // patch
 	}
 
 }
-

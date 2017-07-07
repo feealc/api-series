@@ -3,6 +3,7 @@ var series = require('./series/series.controller.js')
 var emissoras = require('./emissoras/emissoras.controller.js')
 var equipelegendas = require('./equipelegendas/equipelegendas.controller.js')
 var dd = require('./dd/dd.controller.js')
+var log = require('./log/log.controller.js')
 var validate = require('./validate/validate.controller.js')
 
 //
@@ -31,6 +32,10 @@ router
 router
 	.route('/dd')
 	.patch(dd.updDD)
+
+router
+	.route('/log/limpar')
+	.get(log.limpar_logs)
 
 //
 

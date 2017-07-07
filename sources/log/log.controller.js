@@ -4,8 +4,12 @@ var gen = require('../generic/generic.controller.js')
 //
 
 var homePath = "./log_files/"
+var updDD_log = `${homePath}updDD/updDD_log.txt`
+var updDD_debug = `${homePath}updDD/updDD_debug.txt`
+var main_log = `${homePath}main/main_log.text`
+
 var level = {
-	log: true,
+	log: false,
 	debug: false
 }
 
@@ -14,21 +18,47 @@ var level = {
 module.exports = {
 	level,
 	//
+	log_main,
+	//
 	log_updDD,
-	debug_updDD
+	debug_updDD,
+	dump_updDD,
+	//
+	limpar_logs
 }
 
 //
+
+function log_main(value) {
+
+	if (level.log) {
+
+		var line2log = `${gen.getFormattedDate()} ${process.pid} ${value}` + '\n'
+
+		fs.appendFile(main_log, line2log,  function(err) {
+
+			if (err) {
+				return console.error(err)
+			}
+
+			if (value == 'DOWN') {
+				process.exit()
+			}
+
+		})
+
+	}
+
+}
 
 function log_updDD(value) {
 
 	if (level.log) {
 
-		var filePath = `${homePath}updDD/updDD.log`
 		var line2log = `${gen.getFormattedDate()} ${value}` + '\n'
 
-		fs.appendFile(filePath, line2log,  function(err) {
-		// fs.writeFile(filePath, line2log,  function(err) {
+		fs.appendFile(updDD_log, line2log,  function(err) {
+
 		   if (err) {
 		      return console.error(err)
 		   }
@@ -39,19 +69,36 @@ function log_updDD(value) {
 
 }
 
-function debug_updDD(serie) {
+function debug_updDD(value) {
 
 	if (level.debug) {
 
-		var filePath = `${homePath}updDD/updDD.debug`
-		var line2log = `${gen.getFormattedDate()}` + '\n'
+		var line2log = `${gen.getFormattedDate()} ${value}` + '\n'
+
+		fs.appendFile(updDD_debug, line2log,  function(err) {
+
+		   if (err) {
+		      return console.error(err)
+		   }
+		  
+		})
+
+	}
+
+}
+
+function dump_updDD(serie) {
+
+	if (level.debug) {
+
+		var line2log = `${gen.getFormattedDate()} DUMP` + '\n'
 		line2log += `Nome: ${serie.nome}`
 		line2log += `DD Temp: ${serie.dd_temp}`
 		line2log += `DD Ep: ${serie.dd_ep}`
 		line2log += `DD Dia: ${serie.dd_dia}`
 
-		fs.appendFile(filePath, line2log,  function(err) {
-		// fs.writeFile(filePath, line2log,  function(err) {
+		fs.appendFile(updDD_debug, line2log,  function(err) {
+
 		   if (err) {
 		      return console.error(err)
 		   }
@@ -62,26 +109,23 @@ function debug_updDD(serie) {
 	
 }
 
+function limpar_logs(req, res) {
 
+	// main
+	fs.writeFile(main_log, '')
 
-// console.log("Going to write into existing file")
+	// dd log
+	fs.writeFile(updDD_log, '')
+	
+	// // dd debug
+	fs.writeFile(updDD_debug, '')
 
-// var filePath = "./log/files/teste.txt"
+	//
 
-// fs.appendFile(filePath, 'isles\n',  function(err) {
-//    if (err) {
-//       return console.error(err)
-//    }
-   
-//    console.log("Data written successfully!")
-//    // console.log("Let's read newly written data")
-//    // fs.readFile(filePath, function (err, data) {
-//    //    if (err) {
-//    //       return console.error(err)
-//    //    }
-//    //    console.log("Asynchronous read: " + data.toString())
-//    // })
-// })
+	return res
+		.status(200)
+		.json({message: 'OK'})
 
+}
 
 

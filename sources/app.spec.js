@@ -4,6 +4,7 @@ const chaiHttp = require('chai-http')
 const Series = require('./series/series.model.js')
 const Emissoras = require('./emissoras/emissoras.model.js')
 const EquipeLegendas = require('./equipelegendas/equipelegendas.model.js')
+var log = require('./log/log.controller.js')
 
 //
 
@@ -60,13 +61,25 @@ chai.use(chaiHttp)
 
 //
 
-describe("Documentação APIDOC", function() {
-	it('Header == html', function(done) {
-		chai.request(urlBase)
-		.get('/doc')
-		.end(function(err, res) {
-			expect(res).to.be.html // header content-type = application/html
-			done()
+describe("Páginas", function() {
+	describe("Documentação APIDOC", function() {
+		it('Header == html', function(done) {
+			chai.request(urlBase)
+			.get('/doc')
+			.end(function(err, res) {
+				expect(res).to.be.html // header content-type = application/html
+				done()
+			})
+		})
+	})
+	describe("Logs", function() {
+		it('Header == html', function(done) {
+			chai.request(urlBase)
+			.get('/log')
+			.end(function(err, res) {
+				expect(res).to.be.html // header content-type = application/html
+				done()
+			})
 		})
 	})
 })
@@ -3501,11 +3514,10 @@ describe("Download Diário", function() {
 	describe("Atualizar as séries - updDD", function() {
 		it('Informacoes ok', function(done) {
 			oUP_DD.serieOk.id = idSerieTeste // atualizando o id
+			var aux = { series: [oUP_DD.serieOk] }
 			chai.request(urlBase)
 			.patch(urlDD)
-			// .send(oUP_DD.serieOk)
-			// .send(arr)
-			.send([oUP_DD.serieOk])
+			.send(aux)
 			.end(function(err, res) {
 				expect(res).to.have.status(200)
 				expect(res.body).to.have.all.keys(['message'])
@@ -3530,9 +3542,10 @@ describe("Download Diário", function() {
 		})
 		it('Informacoes ok - null', function(done) {
 			oUP_DD.serieOkNull.id = idSerieTeste // atualizando o id
+			var aux = { series: [oUP_DD.serieOkNull] }
 			chai.request(urlBase)
 			.patch(urlDD)
-			.send([oUP_DD.serieOkNull])
+			.send(aux)
 			.end(function(err, res) {
 				expect(res).to.have.status(200)
 				expect(res.body).to.have.all.keys(['message'])
@@ -3555,11 +3568,38 @@ describe("Download Diário", function() {
 				done()
 			})
 		})
-		it('Informacoes nok - nome ausente', function(done) {
-			oUP_DD.serieNomeAusente.id = idSerieTeste // atualizando o id
+		it('Informacoes nok - sem a key "series"', function(done) {
+			oUP_DD.serieOk.id = idSerieTeste // atualizando o id
+			var aux = { serie: [oUP_DD.serieOk] }
 			chai.request(urlBase)
 			.patch(urlDD)
-			.send([oUP_DD.serieNomeAusente])
+			.send(aux)
+			.end(function(err, res) {
+				expect(res).to.have.status(400)
+				expect(res.body).to.have.all.keys(['message'])
+				expect(res.body.message).to.have.string(mR_DD.dd400keynaoencontrada)
+				done()
+			})
+		})
+		it('Informacoes nok - não é um array', function(done) {
+			oUP_DD.serieOk.id = idSerieTeste // atualizando o id
+			var aux = { series: oUP_DD.serieOk }
+			chai.request(urlBase)
+			.patch(urlDD)
+			.send(aux)
+			.end(function(err, res) {
+				expect(res).to.have.status(400)
+				expect(res.body).to.have.all.keys(['message'])
+				expect(res.body.message).to.have.string(mR_DD.dd400notarray)
+				done()
+			})
+		})
+		it('Informacoes nok - nome ausente', function(done) {
+			oUP_DD.serieNomeAusente.id = idSerieTeste // atualizando o id
+			var aux = { series: [oUP_DD.serieNomeAusente] }
+			chai.request(urlBase)
+			.patch(urlDD)
+			.send(aux)
 			.end(function(err, res) {
 				expect(res).to.have.status(400)
 				expect(res.body).to.be.instanceof(Array)
@@ -3572,9 +3612,10 @@ describe("Download Diário", function() {
 		})
 		it('Informacoes nok - nome diferente', function(done) {
 			oUP_DD.serieNomeDiferente.id = idSerieTeste // atualizando o id
+			var aux = { series: [oUP_DD.serieNomeDiferente] }
 			chai.request(urlBase)
 			.patch(urlDD)
-			.send([oUP_DD.serieNomeDiferente])
+			.send(aux)
 			.end(function(err, res) {
 				expect(res).to.have.status(400)
 				expect(res.body).to.have.all.keys(['message'])
@@ -3584,9 +3625,10 @@ describe("Download Diário", function() {
 		})
 		it('Informacoes nok - dd_temp ausente', function(done) {
 			oUP_DD.serieDDTempAusente.id = idSerieTeste // atualizando o id
+			var aux = { series: [oUP_DD.serieDDTempAusente] }
 			chai.request(urlBase)
 			.patch(urlDD)
-			.send([oUP_DD.serieDDTempAusente])
+			.send(aux)
 			.end(function(err, res) {
 				expect(res).to.have.status(400)
 				expect(res.body).to.be.instanceof(Array)
@@ -3604,9 +3646,10 @@ describe("Download Diário", function() {
 		})
 		it('Informacoes nok - dd_temp invalido', function(done) {
 			oUP_DD.serieDDTempInvalido.id = idSerieTeste // atualizando o id
+			var aux = { series: [oUP_DD.serieDDTempInvalido] }
 			chai.request(urlBase)
 			.patch(urlDD)
-			.send([oUP_DD.serieDDTempInvalido])
+			.send(aux)
 			.end(function(err, res) {
 				expect(res).to.have.status(400)
 				expect(res.body).to.be.instanceof(Array)
@@ -3625,9 +3668,10 @@ describe("Download Diário", function() {
 		})
 		it('Informacoes nok - dd_ep ausente', function(done) {
 			oUP_DD.serieDDEpAusente.id = idSerieTeste // atualizando o id
+			var aux = { series: [oUP_DD.serieDDEpAusente] }
 			chai.request(urlBase)
 			.patch(urlDD)
-			.send([oUP_DD.serieDDEpAusente])
+			.send(aux)
 			.end(function(err, res) {
 				expect(res).to.have.status(400)
 				expect(res.body).to.be.instanceof(Array)
@@ -3644,9 +3688,10 @@ describe("Download Diário", function() {
 		})
 		it('Informacoes nok - dd_ep vazio', function(done) {
 			oUP_DD.serieDDEpVazio.id = idSerieTeste // atualizando o id
+			var aux = { series: [oUP_DD.serieDDEpVazio] }
 			chai.request(urlBase)
 			.patch(urlDD)
-			.send([oUP_DD.serieDDEpVazio])
+			.send(aux)
 			.end(function(err, res) {
 				expect(res).to.have.status(400)
 				expect(res.body).to.be.instanceof(Array)
@@ -3665,9 +3710,10 @@ describe("Download Diário", function() {
 		})
 		it('Informacoes nok - dd_dia ausente', function(done) {
 			oUP_DD.serieDDDiaAusente.id = idSerieTeste // atualizando o id
+			var aux = { series: [oUP_DD.serieDDDiaAusente] }
 			chai.request(urlBase)
 			.patch(urlDD)
-			.send([oUP_DD.serieDDDiaAusente])
+			.send(aux)
 			.end(function(err, res) {
 				expect(res).to.have.status(400)
 				expect(res.body).to.be.instanceof(Array)

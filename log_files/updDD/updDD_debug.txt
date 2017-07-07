@@ -1,0 +1,8 @@
+2017-07-07 20:05:49 Nome: Teste DD 1
+2017-07-07 20:05:49 ID: 594f21d6fbfae1000413e77d
+2017-07-07 20:05:49 DD Temp: 7
+2017-07-07 20:05:49 ID válido
+2017-07-07 20:05:49 DD Temp presente
+2017-07-07 20:05:49 DD Temp numérico
+2017-07-07 20:05:49 ID presente
+2017-07-07 20:05:49 Nome presente
