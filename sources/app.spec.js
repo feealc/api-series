@@ -3534,6 +3534,10 @@ describe("Download Diário", function() {
 				expect(res.body).to.not.have.all.keys([oM_S.param.v])
 				// validar os campos do DD
 				// console.log(res.body)
+				expect(res.body.sp).to.be.equal(oUP_DD.serieOk.sp)
+				expect(res.body.sm).to.be.equal(oUP_DD.serieOk.sm)
+				expect(res.body.hia).to.be.equal(oUP_DD.serieOk.hia)
+				expect(res.body.sf).to.be.equal(oUP_DD.serieOk.sf)
 				expect(res.body.dd_temp).to.be.equal(oUP_DD.serieOk.dd_temp)
 				expect(res.body.dd_ep).to.be.equal(oUP_DD.serieOk.dd_ep)
 				expect(res.body.dd_dia).to.be.equal(oUP_DD.serieOk.dd_dia)
@@ -3562,6 +3566,10 @@ describe("Download Diário", function() {
 				expect(res.body).to.not.have.all.keys([oM_S.param.v])
 				// validar os campos do DD
 				// console.log(res.body)
+				expect(res.body.sp).to.be.null
+				expect(res.body.sm).to.be.null
+				expect(res.body.hia).to.be.null
+				expect(res.body.sf).to.be.null
 				expect(res.body.dd_temp).to.be.null
 				expect(res.body.dd_ep).to.be.null
 				expect(res.body.dd_dia).to.be.null

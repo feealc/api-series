@@ -130,6 +130,12 @@ function updDD(req, res) { // patch
 			}
 		}
 
+		/*
+
+		Criar as validades para os campos status, sp, sm, hia e sf
+
+		*/
+
 		// dd_temp
 		log.debug_updDD(`DD Temp: ${sre.dd_temp}`)
 		if (sre.dd_temp) {
@@ -167,7 +173,7 @@ function updDD(req, res) { // patch
 				param: 'dd_temp',
 				msg: eMV_DD.dd_temp
 			}
-			
+
 		}
 
 		// dd_ep
@@ -312,9 +318,34 @@ function updDD(req, res) { // patch
 							.json({message: mR_DD.dd400nomedif})
 					}
 					
+					serie.status = sre.status
+					// sp
+					if (sre.sp == 'null') {
+						serie.sp = null
+					} else {
+						serie.sp = sre.sp || serie.sp
+					}
+					// sm
+					if (sre.sm == 'null') {
+						serie.sm = null
+					} else {
+						serie.sm = sre.sm || serie.sm
+					}
+					// hia
+					if (sre.hia == 'null') {
+						serie.hia = null
+					} else {
+						serie.hia = sre.hia || serie.hia
+					}
+					// sf
+					if (sre.sf == 'null') {
+						serie.sf = null
+					} else {
+						serie.sf = sre.sf || serie.sf
+					}
 					serie.dt_ult_at = gen.getCurrentDate()
 					// dd_temp
-					if (sre.dd_temp == "null") {
+					if (sre.dd_temp == "-1") {
 						serie.dd_temp = null
 					} else {
 						serie.dd_temp = sre.dd_temp

@@ -1599,6 +1599,11 @@ var objUpdDDSerie = { // patch
 	serieOk: {
 		"id": "",
 		"nome": objUpdFullSerie.serieOk.nome,
+		"status": objUpdFullSerie.serieOk.status,
+		"sp": "2017-01-01",
+		"sm": "2017-01-02",
+		"hia": "2017-01-03",
+		"sf": "2017-01-04",
 		"dd_temp": 8,
 		"dd_ep": "22",
 		"dd_dia": "ok"
@@ -1606,13 +1611,19 @@ var objUpdDDSerie = { // patch
 	serieOkNull: {
 		"id": "",
 		"nome": objUpdFullSerie.serieOk.nome,
-		"dd_temp": "null",
+		"status": objUpdFullSerie.serieOk.status,
+		"sp": "null",
+		"sm": "null",
+		"hia": "null",
+		"sf": "null",
+		"dd_temp": -1,
 		"dd_ep": "null",
 		"dd_dia": "null"
 	},
 	serieNomeAusente: {
 		"id": "",
 		// "nome": objUpdFullSerie.serieOk.nome,
+		"status": objUpdFullSerie.serieOk.status,
 		"dd_temp": 8,
 		"dd_ep": "22",
 		"dd_dia": "ok"
@@ -1620,6 +1631,7 @@ var objUpdDDSerie = { // patch
 	serieNomeDiferente: {
 		"id": "",
 		"nome": "Serie Teste Upd DD",
+		"status": objUpdFullSerie.serieOk.status,
 		"dd_temp": 8,
 		"dd_ep": "22",
 		"dd_dia": "ok"
@@ -1627,6 +1639,7 @@ var objUpdDDSerie = { // patch
 	serieDDTempAusente: {
 		"id": "",
 		"nome": objUpdFullSerie.serieOk.nome,
+		"status": objUpdFullSerie.serieOk.status,
 		// "dd_temp": 8,
 		"dd_ep": "22",
 		"dd_dia": "ok"
@@ -1634,6 +1647,7 @@ var objUpdDDSerie = { // patch
 	serieDDTempInvalido: {
 		"id": "",
 		"nome": objUpdFullSerie.serieOk.nome,
+		"status": objUpdFullSerie.serieOk.status,
 		"dd_temp": "f",
 		"dd_ep": "22",
 		"dd_dia": "ok"
@@ -1641,6 +1655,7 @@ var objUpdDDSerie = { // patch
 	serieDDEpAusente: {
 		"id": "",
 		"nome": objUpdFullSerie.serieOk.nome,
+		"status": objUpdFullSerie.serieOk.status,
 		"dd_temp": 8,
 		// "dd_ep": "22",
 		"dd_dia": "ok"
@@ -1648,6 +1663,7 @@ var objUpdDDSerie = { // patch
 	serieDDEpVazio: {
 		"id": "",
 		"nome": objUpdFullSerie.serieOk.nome,
+		"status": objUpdFullSerie.serieOk.status,
 		"dd_temp": 8,
 		"dd_ep": "",
 		"dd_dia": "ok"
@@ -1655,6 +1671,7 @@ var objUpdDDSerie = { // patch
 	serieDDDiaAusente: {
 		"id": "",
 		"nome": objUpdFullSerie.serieOk.nome,
+		"status": objUpdFullSerie.serieOk.status,
 		"dd_temp": 8,
 		"dd_ep": "22"
 		// "dd_dia": "ok"

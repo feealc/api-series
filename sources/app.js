@@ -35,7 +35,7 @@ mongoose.connect(mongoconect, err => {
 
   }
 
-  log.log_main('UP')
+  // log.log_main('UP')
   server.listen(port, () => console.log(`localhost:${port}`))
 
 })
