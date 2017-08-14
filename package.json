@@ -2,6 +2,9 @@
   "name": "api-Series",
   "version": "1.0.0",
   "description": "API para fazer o meu controle de series",
+  "engines": {
+    "node": "6.11.1"
+  },
   "main": "index.js",
   "scripts": {
     "dev": "nodemon sources/app.js",
